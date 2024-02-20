@@ -35,7 +35,7 @@ exam <-
     if (!is.null(students)) {
       instances_num <- length(students)
     } else {
-      students <- rep('', instances_num)
+      students <- num_vector(end = instances_num)
     }
     if (!is.null(out_dir)) {
       out_dir <- name_with_nexus(out_dir)
@@ -62,6 +62,35 @@ exam <-
   }
 
 
+#' Generate pdf exam
+#'
+#' @param ex A `exam` object.
+#' @param encoding A string.
+#'
+#' @return A `exam`.
+#'
+#' @family question definition
+#'
+#' @export
+generate_pdf <- function(ex, encoding) UseMethod("generate_pdf")
+
+
+#' @rdname generate_pdf
+#' @export
+generate_pdf.exam <- function(ex, encoding = "UTF-8") {
+  for (student in ex$students) {
+    rmarkdown::render(
+      ex$rmd,
+      "pdf_document",
+      output_file = paste0(ex$out_dir, snakecase::to_snake_case(student)),
+      encoding = encoding,
+      params = list(a= ex$students, b = "otra prueba")
+    )
+    exam_env$exam_number <- exam_env$exam_number + 1
+  }
+  ex
+}
+
 
 #' Get exam number
 #'
@@ -86,7 +115,7 @@ get_exam_number <- function() {
 #'
 #' @export
 get_exam_number_str <- function() {
-  exam_env$exam_number_str
+  exam_env$exam_number_str[exam_env$exam_number]
 }
 
 #' Get student name
@@ -99,7 +128,7 @@ get_exam_number_str <- function() {
 #'
 #' @export
 get_student_name <- function() {
-  exam_env$student_name
+  exam_env$student_name[exam_env$exam_number]
 }
 
 
