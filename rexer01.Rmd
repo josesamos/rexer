@@ -1,0 +1,30 @@
+---
+header-includes:
+  \usepackage{fancyhdr}
+   \pagestyle{fancy}
+   \setlength{\headheight}{13.59999pt}
+   \addtolength{\topmargin}{-1.59999pt}
+   \fancyhf{}
+   \fancypagestyle{plain}{\pagestyle{fancy}}
+   \fancyhead[RO]{`r rexer::get_exam_number()`}
+   \fancyhead[L]{\emph{SMD}}
+   \chead{\emph{Sistemas Multidimensionales} - Curso 2023-2024 - \textsc{Ejercicio de Evaluación Inicial}}
+geometry: "left=2cm,right=2cm,top=3cm,bottom=2cm"
+output:
+  pdf_document:
+    extra_dependencies: ["float"]
+fontsize: 11pt
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
+```
+
+
+
+Fecha:_______ Apellidos, nombre: `r rexer::get_student_name()`
+
+0.2 puntos **adicionales**. Todos los ejercicios tienen el mismo valor. En cada ejercicio, todos los apartados tienen el mismo valor. Es un ejercicio para realizar de forma **individual**.
+
+---
