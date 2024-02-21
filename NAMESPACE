@@ -3,8 +3,3 @@
 S3method(generate_pdf,exam)
 export(exam)
 export(generate_pdf)
-export(get_exam_number)
-export(get_exam_number_str)
-export(get_next_question)
-export(get_question_set)
-export(get_student_name)

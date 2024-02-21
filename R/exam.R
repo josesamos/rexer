@@ -1,5 +1,3 @@
-exam_env <- new.env()
-
 #' `exam` S3 class
 #'
 #' Creates a `exam` object.
@@ -43,20 +41,16 @@ exam <-
 
     instances <- num_vector(end = instances_num)
 
-    exam_env$exam_number <- 1
-    exam_env$exam_number_str <- instances[1]
-    exam_env$student_name <- students[1]
-    exam_env$questions <- questions
-    exam_env$next_question <- 1
-
     structure(list(
       rmd = rmd,
+      questions = questions,
       students = students,
       instances = instances,
       random = random,
       reorder_questions = reorder_questions,
       delivery = delivery,
-      out_dir = out_dir
+      out_dir = out_dir,
+      exam_number = 1
     ),
     class = "exam")
   }
@@ -84,81 +78,15 @@ generate_pdf.exam <- function(ex, encoding = "UTF-8") {
       "pdf_document",
       output_file = paste0(ex$out_dir, snakecase::to_snake_case(student)),
       encoding = encoding,
-      params = list(a= ex$students, b = "otra prueba")
+      params = list(exam_number = ex$exam_number,
+                    exam_number_str = ex$instances[ex$exam_number],
+                    student_name = ex$students[ex$exam_number],
+                    questions = ex$questions,
+                    all_questions = ex$questions)
     )
-    exam_env$exam_number <- exam_env$exam_number + 1
+    ex$exam_number <- ex$exam_number + 1
   }
   ex
 }
 
 
-#' Get exam number
-#'
-#' @return An integer.
-#'
-#' @examples
-#'
-#' n <- get_exam_number()
-#'
-#' @export
-get_exam_number <- function() {
-  exam_env$exam_number
-}
-
-#' Get exam number str
-#'
-#' @return A string.
-#'
-#' @examples
-#'
-#' n <- get_exam_number()
-#'
-#' @export
-get_exam_number_str <- function() {
-  exam_env$exam_number_str[exam_env$exam_number]
-}
-
-#' Get student name
-#'
-#' @return A string.
-#'
-#' @examples
-#'
-#' n <- get_student_name()
-#'
-#' @export
-get_student_name <- function() {
-  exam_env$student_name[exam_env$exam_number]
-}
-
-
-#' Get next question
-#'
-#' @return A data frame
-#'
-#' @examples
-#'
-#' q <- get_next_question()
-#'
-#' @export
-get_next_question <- function() {
-  question <- exam_env$questions[exam_env$next_question, ]
-  exam_env$next_question <- exam_env$next_question + 1
-  question
-}
-
-
-#' Get question set
-#'
-#' @param n An integer, number of questions to include, with NULL all are included.
-#'
-#' @return A data frame
-#'
-#' @examples
-#'
-#' q <- get_question_set()
-#'
-#' @export
-get_question_set <- function(n = NULL) {
-  questions <- exam_env$questions
-}
