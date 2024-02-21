@@ -6,7 +6,7 @@
 \usage{
 exam(
   rmd = NULL,
-  students = NULL,
+  examined = NULL,
   instances_num = 1,
   random = TRUE,
   reorder_questions = TRUE,
@@ -18,10 +18,10 @@ exam(
 \arguments{
 \item{rmd}{A string, rmd file, exam template.}
 
-\item{students}{A vector, instance names to generate.}
+\item{examined}{A vector, instance names to generate.}
 
 \item{instances_num}{An integer, number of instances to generate, if the names
-of students are not indicated.}
+of examined are not indicated.}
 
 \item{random}{A boolean, random or sequential generation.}
 

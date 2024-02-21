@@ -1,4 +1,4 @@
-#' Define question
+#' Define a question
 #'
 #' Define a question and the possible answers.
 #'
@@ -22,25 +22,25 @@
 #' @family question definition
 #'
 #' @export
-define_question <- function(ex,
-                            type,
-                            question,
-                            image,
-                            image_alt,
-                            answer,
-                            ...)
-  UseMethod("define_question")
+define_a_question <- function(ex,
+                              type,
+                              question,
+                              image,
+                              image_alt,
+                              answer,
+                              ...)
+  UseMethod("define_a_question")
 
 
-#' @rdname define_question
+#' @rdname define_a_question
 #' @export
-define_question.exam <- function(ex,
-                                 type = '',
-                                 question = '',
-                                 image = '',
-                                 image_alt = '',
-                                 answer = '',
-                                 ...) {
+define_a_question.exam <- function(ex,
+                                   type = '',
+                                   question = '',
+                                   image = '',
+                                   image_alt = '',
+                                   answer = '',
+                                   ...) {
   if (image != '') {
     stopifnot('If an image is included, the associated alt field must also be defined.' = image_alt != '')
   }
@@ -95,8 +95,6 @@ define_question.exam <- function(ex,
 }
 
 
-
-
 #' Define questions from a data frame
 #'
 #' Each row in the text data frame is interpreted as a question. We only have to define
@@ -113,12 +111,12 @@ define_question.exam <- function(ex,
 #' @family question definition
 #'
 #' @export
-define_questions_from_data_frame <- function(ex, df)
-  UseMethod("define_questions_from_data_frame")
+define_questions <- function(ex, df)
+  UseMethod("define_questions")
 
-#' @rdname define_questions_from_data_frame
+#' @rdname define_questions
 #' @export
-define_questions_from_data_frame.exam <- function(ex, df) {
+define_questions.exam <- function(ex, df) {
   attributes <- names(df)
   df[, attributes] <-
     data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
@@ -137,7 +135,7 @@ define_questions_from_data_frame.exam <- function(ex, df) {
             c("type", "question", "image", "image_alt", "answer"))
   for (i in 1:nrow(df)) {
     text <- paste0(
-      "define_question(ex, type = '",
+      "define_a_question(ex, type = '",
       df[i, 'type'],
       "', question = '",
       df[i, 'question'],
@@ -161,7 +159,6 @@ define_questions_from_data_frame.exam <- function(ex, df) {
   }
   ex
 }
-
 
 
 #' Define questions from a csv file
@@ -192,10 +189,8 @@ define_questions_from_csv.exam <- function(ex, file, sep = ',') {
     delim = sep,
     col_types = readr::cols(.default = readr::col_character())
   )
-  define_questions_from_data_frame(ex, df)
+  define_questions(ex, df)
 }
-
-
 
 
 #' Define questions from a Excel file
@@ -246,5 +241,5 @@ define_questions_from_excel.exam <- function(ex,
       trim_ws = TRUE
     )
   )
-  define_questions_from_data_frame(ex, df)
+  define_questions(ex, df)
 }

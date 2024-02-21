@@ -34,9 +34,9 @@ elements.
 }
 \seealso{
 Other question definition: 
-\code{\link{define_question}()},
+\code{\link{define_a_question}()},
+\code{\link{define_questions}()},
 \code{\link{define_questions_from_csv}()},
-\code{\link{define_questions_from_data_frame}()},
 \code{\link{generate_pdf}()}
 }
 \concept{question definition}

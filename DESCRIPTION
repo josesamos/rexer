@@ -12,6 +12,7 @@ Imports:
     readxl,
     rmarkdown,
     snakecase,
+    stringr,
     tidyr,
     xlsx
 Suggests: 
