@@ -3,7 +3,6 @@
 #' Creates a `exam` object.
 #'
 #' @param rmd A string, rmd file, exam template.
-#' @param questions A data frame, exam questions.
 #' @param students A vector, instance names to generate.
 #' @param instances_num An integer, number of instances to generate, if the names
 #' of students are not indicated.
@@ -20,7 +19,6 @@
 #' @export
 exam <-
   function(rmd = NULL,
-           questions = NULL,
            students = NULL,
            instances_num = 1,
            random = TRUE,
@@ -41,8 +39,21 @@ exam <-
 
     instances <- num_vector(end = instances_num)
 
+    questions <-  data.frame(
+      type = character(),
+      question = character(),
+      image = character(),
+      image_alt = character(),
+      answer = character(),
+      a_1 = character(),
+      a_2 = character(),
+      a_3 = character(),
+      stringsAsFactors = FALSE
+    )
+
     structure(list(
       rmd = rmd,
+      a_n = 3,
       questions = questions,
       students = students,
       instances = instances,

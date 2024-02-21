@@ -6,7 +6,6 @@
 \usage{
 exam(
   rmd = NULL,
-  questions = NULL,
   students = NULL,
   instances_num = 1,
   random = TRUE,
@@ -18,8 +17,6 @@ exam(
 }
 \arguments{
 \item{rmd}{A string, rmd file, exam template.}
-
-\item{questions}{A data frame, exam questions.}
 
 \item{students}{A vector, instance names to generate.}
 
