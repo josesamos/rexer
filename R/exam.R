@@ -130,16 +130,20 @@ generate_pdf.exam <- function(ex, encoding = "UTF-8") {
 #' @return A string.
 #' @keywords internal
 interpret_all_questions <-
-  function(questions, exam_number, random, reorder, delivery) {
+  function(questions,
+           exam_number,
+           random,
+           reorder,
+           delivery) {
     if (reorder) {
       nq <- nrow(questions)
       r <- sample(1:nq, nq, replace = FALSE)
-      questions <- questions[r, ]
+      questions <- questions[r,]
     }
     txt <- ''
     for (i in 1:nrow(questions)) {
       question <-
-        interpret_a_question(questions[i,], exam_number, random, delivery)
+        interpret_a_question(questions[i, ], exam_number, random, delivery)
       if (questions$type[i] == 'p' & i > 1) {
         txt <- paste0(txt, '
 \\newpage
@@ -164,7 +168,11 @@ interpret_all_questions <-
 #' @return A string vector.
 #' @keywords internal
 interpret_questions <-
-  function(questions, exam_number, random, reorder, delivery) {
+  function(questions,
+           exam_number,
+           random,
+           reorder,
+           delivery) {
     nq <- nrow(questions)
     if (reorder) {
       r <- sample(1:nq, nq, replace = FALSE)
@@ -173,7 +181,8 @@ interpret_questions <-
     }
     vq <- NULL
     for (i in r) {
-      question <- interpret_a_question(questions[i, ], exam_number, random, delivery)
+      question <-
+        interpret_a_question(questions[i,], exam_number, random, delivery)
       vq <- c(vq, question)
     }
     vq
@@ -189,68 +198,76 @@ interpret_questions <-
 #'
 #' @return A string.
 #' @keywords internal
-interpret_a_question <- function(question, exam_number, random, delivery) {
-  names <- names(question)
-  base <- c("type", "question", "image", "image_alt", "answer")
-  values <- setdiff(names, base)
-  others <- question[, values]
-  others <- others[, others != '']
-  txt <- question[, "question"]
+interpret_a_question <-
+  function(question, exam_number, random, delivery) {
+    names <- names(question)
+    base <- c("type", "question", "image", "image_alt", "answer")
+    values <- setdiff(names, base)
+    others <- question[, values]
+    others <- others[, others != '']
+    txt <- question[, "question"]
 
-  avoid <- integer(0)
-  if (question[, "image"] != '') {
-    txt <- paste0(txt,
-                  '
-
-![',
-                  question[, "image_alt"],
-                  '](',
-                  question[, "image"],
-                  ')
-')
-    avoid <-
-      as.integer(stringr::str_extract(c(question[, "image_alt"], question[, "image"]), "[[(\\d+)]]"))
-    avoid <- avoid[!is.na(avoid)]
-  }
-
-  last_sel <- 0
-  i <- 0
-  for (s in seq_along(others)) {
-    vector <- string_to_vector(others[[s]])
-    if (random) {
-      sel <- select_random(vector, n = 1)
-    } else {
-      sel <- select_sequential(vector, n = exam_number)
-    }
-    last_sel <- which(vector == sel, vector)
-    reorder <- select_random(vector)
-    i <- i + 1
-    pattern <- paste0('{{', i, '}}')
-    if (grepl(pattern, txt, fixed = TRUE)) {
-      reorder <- reduce_vector(reorder, sep = '')
-      txt <- gsub(pattern, reorder, txt, fixed = TRUE)
-    } else {
-      pattern <- paste0('[[', i, ']]')
-      if (!delivery) {
-        if (!(i %in% avoid)) {
-          sel <- paste0('**[[', i, ': ', sel, ']]**')
-        }
-      }
-      txt <- gsub(pattern, sel, txt, fixed = TRUE)
-    }
-  }
-  if (!delivery) {
-    answer <- question[, "answer"]
-    answer <- string_to_vector(answer)
-    if (length(answer) > 1) {
-      answer <- answer[last_sel]
-    }
-    if (answer != '') {
+    avoid <- integer(0)
+    if (question[, "image"] != '') {
       txt <- paste0(txt,
                     '
 
-**Answer: **', answer)
+![',
+                    question[, "image_alt"],
+                    '](',
+                    question[, "image"],
+                    ')
+')
+      avoid <-
+        as.integer(stringr::str_extract(c(question[, "image_alt"], question[, "image"]), "[[(\\d+)]]"))
+      avoid <- avoid[!is.na(avoid)]
     }
+
+    last_sel <- 0
+    i <- 0
+    for (s in seq_along(others)) {
+      vector <- string_to_vector(others[[s]])
+      if (random) {
+        sel <- select_random(vector, n = 1)
+      } else {
+        sel <- select_sequential(vector, n = exam_number)
+      }
+      last_sel <- which(vector == sel, vector)
+      reorder <- select_random(vector)
+      i <- i + 1
+      pattern <- paste0('{{', i, '}}')
+      if (grepl(pattern, txt, fixed = TRUE)) {
+        reorder <- reduce_vector(reorder, sep = '')
+        txt <- gsub(pattern, reorder, txt, fixed = TRUE)
+      } else {
+        pattern <- paste0('[[', i, ']]')
+        if (!delivery) {
+          if (!(i %in% avoid)) {
+            sel <- paste0('**[[', i, ': ', sel, ']]**')
+          }
+        }
+        txt <- gsub(pattern, sel, txt, fixed = TRUE)
+      }
+    }
+    if (!delivery) {
+      answer <- question[, "answer"]
+      answer <- string_to_vector(answer)
+      if (length(answer) > 1) {
+        answer <- answer[last_sel]
+      }
+      if (answer != '') {
+        txt <- paste0(txt,
+                      '
+
+---
+
+', answer, '
+
+
+---
+
+')
+      }
+    }
+    txt
   }
-  txt
-}
