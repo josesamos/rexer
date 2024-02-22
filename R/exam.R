@@ -8,6 +8,7 @@
 #' of examined are not indicated.
 #' @param random A boolean, random or sequential generation.
 #' @param reorder_questions A boolean, reorder questions in exam.
+#' @param select_n_questions An integer, .
 #' @param delivery A boolean, version to correct or delivery.
 #' @param out_dir A string, output folder.
 #' @param seed An integer, seed to generate random numbers.
@@ -23,6 +24,7 @@ exam <-
            instances_num = 1,
            random = TRUE,
            reorder_questions = TRUE,
+           select_n_questions = NULL,
            delivery = TRUE,
            out_dir = 'exam',
            seed = 173) {
@@ -60,6 +62,7 @@ exam <-
         instances = instances,
         random = random,
         reorder_questions = reorder_questions,
+        select_n_questions = select_n_questions,
         delivery = delivery,
         out_dir = out_dir
       ),
@@ -87,15 +90,30 @@ generate_document <- function(ex, output_format, encoding)
 #' @export
 generate_document.exam <- function(ex, output_format = "pdf_document", encoding = "UTF-8") {
   exam_number <- 1
+  n <- nrow(ex$questions)
+  if (is.null(ex$select_n_questions)) {
+    select_n_questions <- n
+  } else if (ex$select_n_questions > n) {
+    select_n_questions <- n
+  } else {
+    select_n_questions <- ex$select_n_questions
+  }
   for (examined in ex$examined) {
+    if (select_n_questions < n) {
+      i <- sample.int(n, select_n_questions)
+      if (!ex$reorder_questions) {
+        i <- sort(i)
+      }
+      sel_questions <- ex$questions[i, ]
+    }
     questions <-
-      interpret_questions(ex$questions,
+      interpret_questions(sel_questions,
                           exam_number,
                           ex$random,
                           ex$reorder_questions,
                           ex$delivery)
     all_questions <-
-      interpret_all_questions(ex$questions,
+      interpret_all_questions(sel_questions,
                               exam_number,
                               ex$random,
                               ex$reorder_questions,

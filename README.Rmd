@@ -18,7 +18,18 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of rexer is to ...
+The goal of `rexer` is to ...
+
+Evaluación continua en clase, los estudiantes están próximos. Generar exámenes similares pero distintos de manera que cada estudiante deba centrarse en la resolución de su examen / que el examen de alguien próximo no le sirva.
+
+Preguntas similares con componentes cambiantes.
+
+Ayuda para la corrección. 
+
+Selección de preguntas aleatorias.
+
+Poder tener una base de datos de preguntas y seleccionar 
+
 
 ## Installation
 
