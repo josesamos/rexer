@@ -30,21 +30,20 @@ define_a_question(ex, type, question, image, image_alt, answer, ...)
 
 \item{answer}{A string, correct answer to the question.}
 
-\item{...}{A string, rest of the answers to the question.}
+\item{...}{A string, options for the gaps in the question.}
 }
 \value{
 A `exam`.
 }
 \description{
-Define a question and the possible answers.
+Define a question with random components.
 }
 \details{
 If we include an image in the question, we must also include text in the `alt`
 field associated with it.
 
-After the correct answer, we can indicate as many answers as we want, if we do
-not indicate all the parameters, we have to give each answer a parameter name
-different from the rest of the parameter names.
+After the answer, the options can be defined to fill in the gaps that have been
+defined in the question.
 }
 \seealso{
 Other question definition: 

@@ -1,13 +1,12 @@
 #' Define a question
 #'
-#' Define a question and the possible answers.
+#' Define a question with random components.
 #'
 #' If we include an image in the question, we must also include text in the `alt`
 #' field associated with it.
 #'
-#' After the correct answer, we can indicate as many answers as we want, if we do
-#' not indicate all the parameters, we have to give each answer a parameter name
-#' different from the rest of the parameter names.
+#' After the answer, the options can be defined to fill in the gaps that have been
+#' defined in the question.
 #'
 #' @param ex A `exam` object.
 #' @param type A string, question type (if needed).
@@ -15,7 +14,7 @@
 #' @param image A string, optional, image file to include in the question.
 #' @param image_alt A string, description of the image to include in the question.
 #' @param answer A string, correct answer to the question.
-#' @param ... A string, rest of the answers to the question.
+#' @param ... A string, options for the gaps in the question.
 #'
 #' @return A `exam`.
 #'

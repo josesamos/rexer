@@ -14,7 +14,6 @@ num_vector <- function(start = 1, end) {
 }
 
 
-
 #' Name with nexus
 #'
 #' Given a name, if it ends in "/" the nexus is the empty string, otherwise it
@@ -78,29 +77,6 @@ string_to_string_vector <- function(str) {
   res
 }
 
-# is numeric  ----------------------------------------------------
-
-#' Check if it is numeric.
-#'
-#' @param str A string.
-#'
-#' @return A boolean.
-#' @keywords internal
-is_numeric <- function(str) {
-  all(!is.na(suppressWarnings(as.numeric(str))))
-}
-
-# has gaps  ----------------------------------------------------
-
-#' Check if it has gaps.
-#'
-#' @param str A string.
-#'
-#' @return A boolean.
-#' @keywords internal
-has_gaps <- function(str) {
-  grepl('[[1]]', str, fixed = TRUE) & grepl('[[2]]', str, fixed = TRUE)
-}
 
 #' reduce vector by sep.
 #'
@@ -121,24 +97,3 @@ reduce_vector <- function(vector, sep = '\n', italics = FALSE) {
   res
 }
 
-
-#' print vector line by line.
-#'
-#' @param vector An vector of strings.
-#'
-#' @return A string.
-#' @keywords internal
-print_vector <- function(vector) {
-  cat(reduce_vector(vector))
-}
-
-#' check if a string is empty
-#'
-#' @param string A string.
-#'
-#' @return A boolean.
-#' @keywords internal
-is_empty_string <- function(string) {
-  res <- (is.null(string) | identical(string, character(0)))
-  res
-}
