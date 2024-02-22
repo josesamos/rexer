@@ -45,7 +45,9 @@ name_with_nexus <- function(name) {
 #' @return A vector of strings.
 #' @keywords internal
 string_to_vector <- function(str) {
-  if (str == "") {
+  if (length(str) == 0) {
+    res <- NULL
+  } else if (str == "") {
     res <- NULL
   } else {
     res <- unlist(strsplit(str, "<|>", fixed = TRUE))
@@ -63,7 +65,9 @@ string_to_vector <- function(str) {
 #' @return A vector of strings.
 #' @keywords internal
 string_to_string_vector <- function(str) {
-  if (str == "") {
+  if (length(str) == 0) {
+    res <- "''"
+  } else if (str == "") {
     res <- "''"
   } else {
     res <- unlist(strsplit(str, "<|>", fixed = TRUE))
