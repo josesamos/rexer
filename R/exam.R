@@ -68,23 +68,24 @@ exam <-
   }
 
 
-#' Generate pdf exam
+#' generate the exam document
 #'
 #' @param ex A `exam` object.
+#' @param output_format A vector of strings.
 #' @param encoding A string.
 #'
-#' @return A `exam`.
+#' @return A `exam` object.
 #'
 #' @family question definition
 #'
 #' @export
-generate_pdf <- function(ex, encoding)
-  UseMethod("generate_pdf")
+generate_document <- function(ex, output_format, encoding)
+  UseMethod("generate_document")
 
 
-#' @rdname generate_pdf
+#' @rdname generate_document
 #' @export
-generate_pdf.exam <- function(ex, encoding = "UTF-8") {
+generate_document.exam <- function(ex, output_format = "pdf_document", encoding = "UTF-8") {
   exam_number <- 1
   for (examined in ex$examined) {
     questions <-
@@ -102,7 +103,7 @@ generate_pdf.exam <- function(ex, encoding = "UTF-8") {
 
     rmarkdown::render(
       ex$rmd,
-      "pdf_document",
+      output_format,
       output_file = paste0(ex$out_dir, snakecase::to_snake_case(examined)),
       encoding = encoding,
       params = list(
@@ -255,7 +256,7 @@ interpret_a_question <-
       if (length(answer) > 1) {
         answer <- answer[last_sel]
       }
-      if (answer != '') {
+      if (length(answer) > 0) {
         txt <- paste0(txt,
                       '
 

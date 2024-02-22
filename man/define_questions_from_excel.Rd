@@ -37,6 +37,6 @@ Other question definition:
 \code{\link{define_a_question}()},
 \code{\link{define_questions}()},
 \code{\link{define_questions_from_csv}()},
-\code{\link{generate_pdf}()}
+\code{\link{generate_document}()}
 }
 \concept{question definition}
