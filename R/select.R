@@ -29,8 +29,10 @@ select_random <- function(vector, n = NULL) {
 #'
 #' @export
 select_sequential <- function(vector, n = 0) {
-  l <- length(vector)
-  i <- (n %% l) + 1
+  i <- n %% length(vector)
+  if (i == 0) {
+    i <- 1
+  }
   vector[i]
 }
 

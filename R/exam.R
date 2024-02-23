@@ -270,16 +270,27 @@ interpret_a_question <-
       avoid <- avoid[!is.na(avoid)]
     }
 
-    last_sel <- 0
+    answer <- question[, "answer"]
+    answer <- string_to_vector(answer)
+    n_answers <- length(answer)
+    if (n_answers > 1) {
+      sel_answer <- sample.int(n_answers, 1)
+      answer <- answer[sel_answer]
+    } else {
+      sel_answer <- 0
+    }
     i <- 0
     for (s in seq_along(others)) {
       vector <- string_to_vector(others[[s]])
       if (random) {
-        sel <- select_random(vector, n = 1)
+        if (sel_answer > 0) {
+          sel <- select_sequential(vector, n = sel_answer)
+        } else {
+          sel <- select_random(vector, n = 1)
+        }
       } else {
         sel <- select_sequential(vector, n = exam_number)
       }
-      last_sel <- which(vector == sel, vector)
       reorder <- select_random(vector)
       i <- i + 1
       pattern <- paste0('{{', i, '}}')
@@ -297,11 +308,6 @@ interpret_a_question <-
       }
     }
     if (!delivery) {
-      answer <- question[, "answer"]
-      answer <- string_to_vector(answer)
-      if (length(answer) > 1) {
-        answer <- answer[last_sel]
-      }
       if (length(answer) > 0) {
         txt <- paste0(txt,
                       '

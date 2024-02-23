@@ -31,6 +31,12 @@ Selección de preguntas aleatorias.
 Poder tener una base de datos de preguntas y seleccionar 
 
 
+Podrían considerarse como *string exercises* del paquete `exams` pero con el componente aleatorio. 
+
+
+Si se indican varias respuestas, se selecciona una de las respuestas y el resto de opciones que se eligen se corresponden a la respuesta seleccionada -> debería haber el mismo número de opciones o un divisor del él para que sea más fácil de entender.
+
+
 ## Installation
 
 You can install the development version of rexer from [GitHub](https://github.com/) with:
