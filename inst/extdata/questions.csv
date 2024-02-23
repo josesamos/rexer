@@ -1,12 +1,9 @@
-"type","question","image","image_alt","answer",,,
-,"What are the basic arithmetic operations?",,,"Addition, subtraction, multiplication and division.","Addition and subtraction.","Addition, subtraction, multiplication, division and square root.",
-,"Match each operation with its symbol.",,,"Addition<|>+","Subtraction<|>-","Multiplication<|>*",
-,"The square root is a basic arithmetic operation.",,,"False",,,
-,"What basic operation does it have as a ""+"" symbol?",,,"Addition",,,
-,"The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
-"x","The symbol for addition is [[1]], the symbol for subtraction is [[2]].",,,"+","-",,
-"h","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
-"x","Sort the result from smallest to largest.",,,"6/2","6-2","6+2","6*2"
-,"What is the result of SQRT(4)?",,,"2","-2",,
-,"What is the result of 4/3?",,,"1.33<|>0.03",,,
-,"Describe the addition operation.",,,,,,
+"type","question","image","image_alt","answer","a_1","a_2","a_3","a_4"
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]], {{2}}?","","","1.LTU, 3.DMA, 4.VCT<|>1.URY, 3.MLI, 4.PRY<|>1.MEX, 3.BFA, 4.BLZ<|>1.GAB, 3.BDI, 4.KGZ","Lithuania<|>Uruguay<|>Mexico<|>Gabon","[[3]] and [[4]]","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"
+"","What is the three-letter country code (ISO 3166-1 alpha-3) for [[1]]?","","","LTU<|>URY<|>MEX<|>GAB","Lithuania<|>Uruguay<|>Mexico<|>Gabon","","",""
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]] and [[2]]?","","","LTU and DMA<|>URY and MLI<|>MEX and BFA<|>GAB and BDI","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi","",""
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]] and [[2]]?","","","","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi","",""
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for {{1}}?","","","2.LTU, 3.DMA, 4.VCT<|>2.URY, 3.MLI, 4.PRY<|>2.MEX, 3.BFA, 4.BLZ<|>2.GAB, 3.BDI, 4.KGZ","[[2]], [[3]] and [[4]]","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for {{1}}?","","","","[[2]], [[3]] and [[4]]","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]], {{2}}?","","","1.LTU, 3.DMA, 4.VCT<|>1.URY, 3.MLI, 4.PRY<|>1.MEX, 3.BFA, 4.BLZ<|>1.GAB, 3.BDI, 4.KGZ","Lithuania<|>Uruguay<|>Mexico<|>Gabon","[[3]] and [[4]]","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]], {{2}}?","","","","Lithuania<|>Uruguay<|>Mexico<|>Gabon","[[3]] and [[4]]","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"

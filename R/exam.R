@@ -247,6 +247,9 @@ interpret_questions <-
 #' @keywords internal
 interpret_a_question <-
   function(question, exam_number, random, delivery) {
+
+    # browser()
+
     names <- names(question)
     base <- c("type", "question", "image", "image_alt", "answer")
     values <- setdiff(names, base)
@@ -274,8 +277,12 @@ interpret_a_question <-
     answer <- string_to_vector(answer)
     n_answers <- length(answer)
     if (n_answers > 1) {
-      sel_answer <- sample.int(n_answers, 1)
-      answer <- answer[sel_answer]
+      if (random) {
+        sel_answer <- sample.int(n_answers, 1)
+        answer <- answer[sel_answer]
+      } else {
+        answer <- select_sequential(answer, n = exam_number)
+      }
     } else {
       sel_answer <- 0
     }
