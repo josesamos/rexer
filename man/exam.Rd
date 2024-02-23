@@ -10,9 +10,7 @@ exam(
   instances_num = 1,
   random = TRUE,
   reorder_questions = TRUE,
-  delivery = TRUE,
-  out_dir = "exam",
-  seed = 173
+  select_n_questions = NULL
 )
 }
 \arguments{
@@ -27,11 +25,7 @@ of examined are not indicated.}
 
 \item{reorder_questions}{A boolean, reorder questions in exam.}
 
-\item{delivery}{A boolean, version to correct or delivery.}
-
-\item{out_dir}{A string, output folder.}
-
-\item{seed}{An integer, seed to generate random numbers.}
+\item{select_n_questions}{An integer, number of questions to include.}
 }
 \value{
 A `exam` object.

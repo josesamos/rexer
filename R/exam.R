@@ -8,10 +8,7 @@
 #' of examined are not indicated.
 #' @param random A boolean, random or sequential generation.
 #' @param reorder_questions A boolean, reorder questions in exam.
-#' @param select_n_questions An integer, .
-#' @param delivery A boolean, version to correct or delivery.
-#' @param out_dir A string, output folder.
-#' @param seed An integer, seed to generate random numbers.
+#' @param select_n_questions An integer, number of questions to include.
 #'
 #' @return A `exam` object.
 #'
@@ -24,19 +21,12 @@ exam <-
            instances_num = 1,
            random = TRUE,
            reorder_questions = TRUE,
-           select_n_questions = NULL,
-           delivery = TRUE,
-           out_dir = 'exam',
-           seed = 173) {
-    set.seed(seed)
+           select_n_questions = NULL) {
 
     if (!is.null(examined)) {
       instances_num <- length(examined)
     } else {
       examined <- num_vector(end = instances_num)
-    }
-    if (!is.null(out_dir)) {
-      out_dir <- name_with_nexus(out_dir)
     }
 
     instances <- num_vector(end = instances_num)
@@ -63,8 +53,8 @@ exam <-
         random = random,
         reorder_questions = reorder_questions,
         select_n_questions = select_n_questions,
-        delivery = delivery,
-        out_dir = out_dir
+        delivery = TRUE,
+        seed = 173
       ),
       class = "exam"
     )
@@ -74,6 +64,7 @@ exam <-
 #' generate the exam document
 #'
 #' @param ex A `exam` object.
+#' @param out_dir A string, output folder.
 #' @param output_format A vector of strings.
 #' @param encoding A string.
 #'
@@ -82,13 +73,19 @@ exam <-
 #' @family question definition
 #'
 #' @export
-generate_document <- function(ex, output_format, encoding)
+generate_document <- function(ex, out_dir, output_format, encoding)
   UseMethod("generate_document")
-
 
 #' @rdname generate_document
 #' @export
-generate_document.exam <- function(ex, output_format = "pdf_document", encoding = "UTF-8") {
+generate_document.exam <- function(ex,
+                                   out_dir = NULL,
+                                   output_format = "pdf_document",
+                                   encoding = "UTF-8") {
+  if (!is.null(out_dir)) {
+    out_dir <- name_with_nexus(out_dir)
+  }
+  set.seed(ex$seed)
   exam_number <- 1
   n <- nrow(ex$questions)
   if (is.null(ex$select_n_questions)) {
@@ -98,13 +95,14 @@ generate_document.exam <- function(ex, output_format = "pdf_document", encoding 
   } else {
     select_n_questions <- ex$select_n_questions
   }
+  sel_questions <- ex$questions
   for (examined in ex$examined) {
     if (select_n_questions < n) {
       i <- sample.int(n, select_n_questions)
       if (!ex$reorder_questions) {
         i <- sort(i)
       }
-      sel_questions <- ex$questions[i, ]
+      sel_questions <- ex$questions[i,]
     }
     questions <-
       interpret_questions(sel_questions,
@@ -122,7 +120,7 @@ generate_document.exam <- function(ex, output_format = "pdf_document", encoding 
     rmarkdown::render(
       ex$rmd,
       output_format,
-      output_file = paste0(ex$out_dir, snakecase::to_snake_case(examined)),
+      output_file = paste0(out_dir, snakecase::to_snake_case(examined)),
       encoding = encoding,
       params = list(
         exam_number = exam_number,
@@ -136,6 +134,36 @@ generate_document.exam <- function(ex, output_format = "pdf_document", encoding 
   }
   ex
 }
+
+
+#' generate the exam document
+#'
+#' @param ex A `exam` object.
+#' @param out_dir A string, output folder.
+#' @param output_format A vector of strings.
+#' @param encoding A string.
+#'
+#' @return A `exam` object.
+#'
+#' @family question definition
+#'
+#' @export
+generate_correction_document <- function(ex, out_dir, output_format, encoding)
+  UseMethod("generate_correction_document")
+
+
+#' @rdname generate_correction_document
+#' @export
+generate_correction_document.exam <-
+  function(ex,
+           out_dir = NULL,
+           output_format = "pdf_document",
+           encoding = "UTF-8") {
+    ex_corr <- ex
+    ex_corr$delivery <- FALSE
+    ex_corr <- generate_document(ex_corr, out_dir, output_format, encoding)
+    ex
+  }
 
 
 #' interpret all question
