@@ -247,9 +247,6 @@ interpret_questions <-
 #' @keywords internal
 interpret_a_question <-
   function(question, exam_number, random, delivery) {
-
-    browser()
-
     names <- names(question)
     base <- c("type", "question", "image", "image_alt", "answer")
     values <- setdiff(names, base)
@@ -313,12 +310,10 @@ interpret_a_question <-
         txt <- paste0(txt,
                       '
 
----
+**Answer:**
 
 ', answer, '
 
-
----
 
 ')
       }
@@ -337,16 +332,21 @@ reorder_items <- function(txt) {
   x <- stringr::str_extract_all(txt, "\\{\\{([[:print:]]+)\\}\\}")
   for (i in seq_along(x)) {
     r <- unlist(stringr::str_extract_all(x[[i]], "\\[\\[\\d\\]\\]"))
-    v <- as.integer(stringr::str_extract(r, "\\d"))
-    v <- v[!is.na(v)]
-    l <- length(v)
-    s <- sample.int(l, l)
-    w <- v[s]
+    if (length(r) > 0) {
+      v <- as.integer(stringr::str_extract(r, "\\d"))
+      v <- v[!is.na(v)]
+      l <- length(v)
+      s <- sample.int(l, l)
+      w <- v[s]
+      y <- x[[i]]
+      for (j in seq_along(v)) {
+        y <- gsub(paste0('[[',v[j],']]'), paste0('[[XX',w[j],']]'), y, fixed = TRUE)
+      }
+      y <- gsub(paste0('[[XX'), paste0('[['), y, fixed = TRUE)
+      y <- gsub(paste0('{{'), '', y, fixed = TRUE)
+      y <- gsub(paste0('}}'), '', y, fixed = TRUE)
+      txt <- gsub(x[[i]], y, txt, fixed = TRUE)
+    }
   }
-
-  length(x)
-
-
-
-
+  txt
 }
