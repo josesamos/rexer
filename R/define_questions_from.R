@@ -134,15 +134,15 @@ define_questions.exam <- function(ex, df) {
             c("type", "question", "image", "image_alt", "answer"))
   for (i in 1:nrow(df)) {
     text <- paste0(
-      "define_a_question(ex, type = '",
+      'define_a_question(ex, type = "',
       df[i, 'type'],
-      "', question = '",
+      '", question = "',
       df[i, 'question'],
-      "', image = '",
+      '", image = "',
       df[i, 'image'],
-      "', image_alt = '",
+      '", image_alt = "',
       df[i, 'image_alt'],
-      "', answer = ",
+      '", answer = ',
       string_to_string_vector(df[i, 'answer'][[1]])
     )
     j <- 0

@@ -1,3 +1,4 @@
 "type","question","image","image_alt","answer","a_1","a_2","a_3"
 "p","What is the three-letter country code (ISO 3166-1 alpha-3) for for the country represented in the figure below?","xxxxx/[[1]]","Country outline.","ESP<|>CHL<|>NZL<|>ITA","spain.png<|>chile.png<|>new_zealand.png<|>italy.png",,
 "p","What is the three-letter country code (ISO 3166-1 alpha-3) for for the country represented in the figure below?","xxxxx/[[1]]","Country outline.","GRC<|>GBR<|>JPN<|>BRA","greece.png<|>united_kingdom.png<|>japan.png<|>brazil.png",,
+"p","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]] and for the country represented in the figure below?","xxxxx/[[2]]","Country outline.","LTU and GRC<|>URY and GBR<|>MEX and JPN<|>GAB and BRA","Lithuania<|>Uruguay<|>Mexico<|>Gabon","greece.png<|>united_kingdom.png<|>japan.png<|>brazil.png",
