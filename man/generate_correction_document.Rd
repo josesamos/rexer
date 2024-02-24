@@ -5,13 +5,14 @@
 \alias{generate_correction_document.exam}
 \title{generate the exam document}
 \usage{
-generate_correction_document(ex, out_dir, output_format, encoding)
+generate_correction_document(ex, out_dir, output_format, encoding, pages)
 
 \method{generate_correction_document}{exam}(
   ex,
   out_dir = NULL,
   output_format = "pdf_document",
-  encoding = "UTF-8"
+  encoding = "UTF-8",
+  pages = NULL
 )
 }
 \arguments{
@@ -22,6 +23,8 @@ generate_correction_document(ex, out_dir, output_format, encoding)
 \item{output_format}{A vector of strings.}
 
 \item{encoding}{A string.}
+
+\item{pages}{A string, with the values all, none or NULL.}
 }
 \value{
 A `exam` object.

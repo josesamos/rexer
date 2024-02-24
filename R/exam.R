@@ -67,13 +67,14 @@ exam <-
 #' @param out_dir A string, output folder.
 #' @param output_format A vector of strings.
 #' @param encoding A string.
+#' @param pages A string, with the values all, none or NULL.
 #'
 #' @return A `exam` object.
 #'
 #' @family question definition
 #'
 #' @export
-generate_document <- function(ex, out_dir, output_format, encoding)
+generate_document <- function(ex, out_dir, output_format, encoding, pages)
   UseMethod("generate_document")
 
 #' @rdname generate_document
@@ -81,7 +82,8 @@ generate_document <- function(ex, out_dir, output_format, encoding)
 generate_document.exam <- function(ex,
                                    out_dir = NULL,
                                    output_format = "pdf_document",
-                                   encoding = "UTF-8") {
+                                   encoding = "UTF-8",
+                                   pages = NULL) {
   if (!is.null(out_dir)) {
     out_dir <- name_with_nexus(out_dir)
   }
@@ -96,6 +98,13 @@ generate_document.exam <- function(ex,
     select_n_questions <- ex$select_n_questions
   }
   sel_questions <- ex$questions
+  if (!is.null(pages)) {
+    if (tolower(pages) == 'all') {
+      sel_questions$type <- "p"
+    } else {
+      sel_questions$type <- ""
+    }
+  }
   for (examined in ex$examined) {
     if (select_n_questions < n) {
       i <- sample.int(n, select_n_questions)
@@ -142,13 +151,14 @@ generate_document.exam <- function(ex,
 #' @param out_dir A string, output folder.
 #' @param output_format A vector of strings.
 #' @param encoding A string.
+#' @param pages A string, with the values all, none or NULL.
 #'
 #' @return A `exam` object.
 #'
 #' @family question definition
 #'
 #' @export
-generate_correction_document <- function(ex, out_dir, output_format, encoding)
+generate_correction_document <- function(ex, out_dir, output_format, encoding, pages)
   UseMethod("generate_correction_document")
 
 
@@ -158,10 +168,11 @@ generate_correction_document.exam <-
   function(ex,
            out_dir = NULL,
            output_format = "pdf_document",
-           encoding = "UTF-8") {
+           encoding = "UTF-8",
+           pages = NULL) {
     ex_corr <- ex
     ex_corr$delivery <- FALSE
-    ex_corr <- generate_document(ex_corr, out_dir, output_format, encoding)
+    ex_corr <- generate_document(ex_corr, out_dir, output_format, encoding, pages)
     ex
   }
 
