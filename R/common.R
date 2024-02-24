@@ -66,16 +66,16 @@ string_to_vector <- function(str) {
 #' @keywords internal
 string_to_string_vector <- function(str) {
   if (length(str) == 0) {
-    res <- "''"
+    res <- '""'
   } else if (str == "") {
-    res <- "''"
+    res <- '""'
   } else {
     res <- unlist(strsplit(str, "<|>", fixed = TRUE))
     if (length(res) > 1) {
-      res <- paste(res, collapse = "', '")
-      res <- paste0("c('", res, "')")
+      res <- paste(res, collapse = '", "')
+      res <- paste0('c("', res, '")')
     } else {
-      res <- paste0("'", res, "'")
+      res <- paste0('"', res, '"')
     }
   }
   res

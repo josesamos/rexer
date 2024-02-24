@@ -248,7 +248,7 @@ interpret_questions <-
 interpret_a_question <-
   function(question, exam_number, random, delivery) {
 
-    # browser()
+    browser()
 
     names <- names(question)
     base <- c("type", "question", "image", "image_alt", "answer")
@@ -268,10 +268,11 @@ interpret_a_question <-
                     question[, "image"],
                     ')
 ')
-      avoid <-
-        as.integer(stringr::str_extract(c(question[, "image_alt"], question[, "image"]), "[[(\\d+)]]"))
+      r <- unlist(stringr::str_extract_all(question[, "image"], "\\[\\[\\d\\]\\]"))
+      avoid <- as.integer(stringr::str_extract(r, "\\d"))
       avoid <- avoid[!is.na(avoid)]
     }
+    txt <- reorder_items(txt)
 
     answer <- question[, "answer"]
     answer <- string_to_vector(answer)
@@ -298,21 +299,14 @@ interpret_a_question <-
       } else {
         sel <- select_sequential(vector, n = exam_number)
       }
-      reorder <- select_random(vector)
       i <- i + 1
-      pattern <- paste0('{{', i, '}}')
-      if (grepl(pattern, txt, fixed = TRUE)) {
-        reorder <- reduce_vector(reorder, sep = '')
-        txt <- gsub(pattern, reorder, txt, fixed = TRUE)
-      } else {
-        pattern <- paste0('[[', i, ']]')
-        if (!delivery) {
-          if (!(i %in% avoid)) {
-            sel <- paste0('**[[', i, ': ', sel, ']]**')
-          }
+      pattern <- paste0('[[', i, ']]')
+      if (!delivery) {
+        if (!(i %in% avoid)) {
+          sel <- paste0('**[[', i, ': ', sel, ']]**')
         }
-        txt <- gsub(pattern, sel, txt, fixed = TRUE)
       }
+      txt <- gsub(pattern, sel, txt, fixed = TRUE)
     }
     if (!delivery) {
       if (length(answer) > 0) {
@@ -331,3 +325,28 @@ interpret_a_question <-
     }
     txt
   }
+
+
+#' reorder items.
+#'
+#' @param txt A string.
+#'
+#' @return A string.
+#' @keywords internal
+reorder_items <- function(txt) {
+  x <- stringr::str_extract_all(txt, "\\{\\{([[:print:]]+)\\}\\}")
+  for (i in seq_along(x)) {
+    r <- unlist(stringr::str_extract_all(x[[i]], "\\[\\[\\d\\]\\]"))
+    v <- as.integer(stringr::str_extract(r, "\\d"))
+    v <- v[!is.na(v)]
+    l <- length(v)
+    s <- sample.int(l, l)
+    w <- v[s]
+  }
+
+  length(x)
+
+
+
+
+}
