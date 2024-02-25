@@ -1,0 +1,53 @@
+---
+header-includes:
+  \usepackage{fancyhdr}
+   \pagestyle{fancy}
+   \setlength{\headheight}{13.59999pt}
+   \addtolength{\topmargin}{-1.59999pt}
+   \fancyhf{}
+   \fancypagestyle{plain}{\pagestyle{fancy}}
+   \fancyhead[RO]{`r params$exam_number`}
+   \fancyhead[L]{\emph{rexer}}
+   \chead{\emph{rexer} package example - \emph{University of Granada}}
+geometry: "left=2cm,right=2cm,top=3cm,bottom=2cm"
+output:
+  pdf_document:
+    extra_dependencies: ["float"]
+fontsize: 11pt
+params:
+  exam_number: 1
+  exam_number_str: "01"
+  examined: "01"
+  questions: ""
+  all_questions: ""
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+knitr::opts_chunk$set(fig.pos = "H", out.extra = "")
+```
+
+```{r echo=F, results='asis'}
+cat("<style>.figcaption{text-align:center;}</style>")
+```
+
+
+*Date*:_______ *Last name, first name*:_____________________________________
+
+
+Example of an exam template to be used with the `rexer` package. In this section we can provide indications about the development of the exam.
+
+If defined, the variable `params$examined` will contain the student's name. If not defined, it will contain the number of the generated exam instance (it will match the file name). This is its current value: `r params$examined`
+
+This template presents the questions one by one. The package only includes the statement of each question in the `params$questions` vector variable. To present them, we have to loop through it or include them one by one to adapt their presentation, possibly including more indications.
+
+Number of questions: `r length(params$questions)`
+
+---
+
+```{r, echo=FALSE, results='asis'}
+for (i in seq_along(params$questions)) {
+  q <- paste0('**1.** ', params$questions[i])
+  cat(q)
+}
+```
