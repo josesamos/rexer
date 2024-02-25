@@ -23,12 +23,13 @@ exam <-
            reorder_questions = TRUE,
            select_n_questions = NULL) {
 
+    stopifnot("We need a template to define an exam." = !is.null(rmd))
     if (!is.null(examined)) {
+      examined <- unique(examined)
       instances_num <- length(examined)
     } else {
       examined <- num_vector(end = instances_num)
     }
-
     instances <- num_vector(end = instances_num)
 
     questions <-  data.frame(
