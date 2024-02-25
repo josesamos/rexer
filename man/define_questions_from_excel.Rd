@@ -10,7 +10,7 @@ define_questions_from_excel(ex, file, sheet_index, sheet_name)
 \method{define_questions_from_excel}{exam}(ex, file, sheet_index = NULL, sheet_name = NULL)
 }
 \arguments{
-\item{ex}{A `exam` object.}
+\item{ex}{An `exam` object.}
 
 \item{file}{A string, name of an Excel file.}
 
@@ -19,7 +19,7 @@ define_questions_from_excel(ex, file, sheet_index, sheet_name)
 \item{sheet_name}{A string, sheet name.}
 }
 \value{
-A `exam`.
+An `exam`.
 }
 \description{
 Each row in the Excel file is interpreted as a question. We only have to define
@@ -36,8 +36,6 @@ elements.
 Other question definition: 
 \code{\link{define_a_question}()},
 \code{\link{define_questions}()},
-\code{\link{define_questions_from_csv}()},
-\code{\link{generate_correction_document}()},
-\code{\link{generate_document}()}
+\code{\link{define_questions_from_csv}()}
 }
 \concept{question definition}

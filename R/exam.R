@@ -1,27 +1,41 @@
 #' `exam` S3 class
 #'
-#' Creates a `exam` object.
+#' Creates an `exam` object.
 #'
-#' A test is based on an Rmd template that has predefined parameters, and their
-#' values are filled in using the functions of this object. The `rmd` parameter
-#' specifies the template file.
+#' A test is based on an Rmd template that has predefined parameters whose values
+#' are filled in using the functions of this object. In the `rmd` parameter, we
+#' specify the template file.
 #'
 #' From the template, we generate multiple instances of the test. We can specify
 #' the instances to generate in two ways: by indicating a vector of examinee names
-#' (via the `examinees` parameter) or by specifying the number of instances to
-#' generate (via the `instances_num` parameter). If both are indicated, the examinee
-#' names take precedence.
+#' (using the `examinees` parameter) or by specifying the number of instances to
+#' generate (using the `instances_num` parameter). If both are indicated, the
+#' examinee names take precedence.
 #'
+#' We can generate the tests either randomly or sequentially, depending on the
+#' instance number we generate. This is controlled by the `random` parameter.
 #'
-#' @param rmd A string, rmd file, exam template.
-#' @param examinees A vector, instance names to generate.
-#' @param instances_num An integer, number of instances to generate, if the names
-#' of examinees are not indicated.
-#' @param random A boolean, random or sequential generation.
-#' @param reorder_questions A boolean, reorder questions in exam.
-#' @param select_n_questions An integer, number of questions to include.
+#' Additionally, in each test, we can include the questions in the same order as
+#' they are defined or in random order. This is indicated by the `reorder_questions`
+#' parameter.
 #'
-#' @return A `exam` object.
+#' Finally, using the `select_n_questions` parameter, we can specify the number
+#' of questions to include in each test. From all available questions, the quantity
+#' specified in this parameter will be randomly selected. By default, all defined
+#' questions are included.
+#'
+#' @param rmd A string representing the path to the Rmd file, the exam template.
+#' @param examinees A vector of strings, representing the names of instances to
+#' generate.
+#' @param instances_num An integer, representing the number of instances to generate
+#' if the examinee names are not provided.
+#' @param random A boolean, indicating whether to generate instances randomly or
+#' sequentially.
+#' @param reorder_questions A boolean, indicating whether to reorder questions in
+#' the exam.
+#' @param select_n_questions An integer, representing the number of questions to
+#' include.
+#' @return An `exam` object.
 #'
 #' @family exam definition
 #'
@@ -33,7 +47,6 @@ exam <-
            random = TRUE,
            reorder_questions = TRUE,
            select_n_questions = NULL) {
-
     stopifnot("We need a template to define an exam." = !is.null(rmd))
     if (!is.null(examinees)) {
       examinees <- unique(examinees)
@@ -73,21 +86,34 @@ exam <-
   }
 
 
-#' generate the exam document
+#' Generate the exam document
 #'
-#' @param ex A `exam` object.
-#' @param out_dir A string, output folder.
-#' @param output_format A vector of strings.
-#' @param encoding A string.
-#' @param pages A string, with the values all, none or NULL.
+#' From an exam object, we generate different instances of the exam to deliver to
+#' the individuals being examined. To do this, we need to specify the folder where
+#' they will be generated (using parameter `out_dir`), the output format (using
+#' parameter `output_format`), the encoding (using parameter `encoding`), and whether
+#' we want each question to start on a new page, include questions until the pages
+#' are filled, or preserve the definition of the question in this regard (using
+#' parameter `new_pages`).
 #'
-#' @return A `exam` object.
+#' @param ex An `exam` object.
+#' @param out_dir A string indicating the output folder.
+#' @param output_format A vector of strings specifying the desired output formats.
+#' @param encoding A string specifying the encoding.
+#' @param new_pages A string with the values 'all', 'none', or 'NULL'.
 #'
-#' @family question definition
+#' @return An `exam` object.
+#'
+#' @family exam definition
 #'
 #' @export
-generate_document <- function(ex, out_dir, output_format, encoding, pages)
-  UseMethod("generate_document")
+generate_document <-
+  function(ex,
+           out_dir,
+           output_format,
+           encoding,
+           new_pages)
+    UseMethod("generate_document")
 
 #' @rdname generate_document
 #' @export
@@ -95,7 +121,7 @@ generate_document.exam <- function(ex,
                                    out_dir = NULL,
                                    output_format = "pdf_document",
                                    encoding = "UTF-8",
-                                   pages = NULL) {
+                                   new_pages = NULL) {
   if (!is.null(out_dir)) {
     out_dir <- name_with_nexus(out_dir)
   }
@@ -110,8 +136,8 @@ generate_document.exam <- function(ex,
     select_n_questions <- ex$select_n_questions
   }
   sel_questions <- ex$questions
-  if (!is.null(pages)) {
-    if (tolower(pages) == 'all') {
+  if (!is.null(new_pages)) {
+    if (tolower(new_pages) == 'all') {
       sel_questions$type <- "p"
     } else {
       sel_questions$type <- ""
@@ -123,7 +149,7 @@ generate_document.exam <- function(ex,
       if (!ex$reorder_questions) {
         i <- sort(i)
       }
-      sel_questions <- ex$questions[i,]
+      sel_questions <- ex$questions[i, ]
     }
     questions <-
       interpret_questions(sel_questions,
@@ -157,22 +183,37 @@ generate_document.exam <- function(ex,
 }
 
 
-#' generate the exam document
+#' Generate the support document for exam correction
 #'
-#' @param ex A `exam` object.
-#' @param out_dir A string, output folder.
-#' @param output_format A vector of strings.
-#' @param encoding A string.
-#' @param pages A string, with the values all, none or NULL.
+#' From an exam object, we can generate instances that serve as support for the
+#' correction of the exam. Each instance will include the answers, if they are
+#' indicated, associated with the questions. In any case, the randomly included
+#' part of the exam will be highlighted.
 #'
-#' @return A `exam` object.
+#' To do this, we specify the folder where the documents will be generated (using
+#' parameter `out_dir`), the output format (using parameter `output_format`), the
+#' encoding (using parameter `encoding`), and whether we want each question to
+#' start on a new page, include questions until the pages are filled, or preserve
+#' the definition of the question in this regard (using parameter `new_pages`).
 #'
-#' @family question definition
+#' @param ex An `exam` object.
+#' @param out_dir A string indicating the output folder.
+#' @param output_format A vector of strings specifying the desired output formats.
+#' @param encoding A string specifying the encoding.
+#' @param new_pages A string with the values 'all', 'none', or 'NULL'.
+#'
+#' @return An `exam` object.
+#'
+#' @family exam definition
 #'
 #' @export
-generate_correction_document <- function(ex, out_dir, output_format, encoding, pages)
-  UseMethod("generate_correction_document")
-
+generate_correction_document <-
+  function(ex,
+           out_dir,
+           output_format,
+           encoding,
+           new_pages)
+    UseMethod("generate_correction_document")
 
 #' @rdname generate_correction_document
 #' @export
@@ -181,10 +222,11 @@ generate_correction_document.exam <-
            out_dir = NULL,
            output_format = "pdf_document",
            encoding = "UTF-8",
-           pages = NULL) {
+           new_pages = NULL) {
     ex_corr <- ex
     ex_corr$delivery <- FALSE
-    ex_corr <- generate_document(ex_corr, out_dir, output_format, encoding, pages)
+    ex_corr <-
+      generate_document(ex_corr, out_dir, output_format, encoding, new_pages)
     ex
   }
 
@@ -208,12 +250,12 @@ interpret_all_questions <-
     if (reorder) {
       nq <- nrow(questions)
       r <- sample(1:nq, nq, replace = FALSE)
-      questions <- questions[r,]
+      questions <- questions[r, ]
     }
     txt <- ''
     for (i in 1:nrow(questions)) {
       question <-
-        interpret_a_question(questions[i, ], exam_number, random, delivery)
+        interpret_a_question(questions[i,], exam_number, random, delivery)
       if (questions$type[i] == 'p' & i > 1) {
         txt <- paste0(txt, '
 \\newpage
@@ -252,7 +294,7 @@ interpret_questions <-
     vq <- NULL
     for (i in r) {
       question <-
-        interpret_a_question(questions[i,], exam_number, random, delivery)
+        interpret_a_question(questions[i, ], exam_number, random, delivery)
       vq <- c(vq, question)
     }
     vq
@@ -288,7 +330,8 @@ interpret_a_question <-
                     question[, "image"],
                     ')
 ')
-      r <- unlist(stringr::str_extract_all(question[, "image"], "\\[\\[\\d\\]\\]"))
+      r <-
+        unlist(stringr::str_extract_all(question[, "image"], "\\[\\[\\d\\]\\]"))
       avoid <- as.integer(stringr::str_extract(r, "\\d"))
       avoid <- avoid[!is.na(avoid)]
     }
@@ -363,7 +406,11 @@ reorder_items <- function(txt) {
       w <- v[s]
       y <- x[[i]]
       for (j in seq_along(v)) {
-        y <- gsub(paste0('[[',v[j],']]'), paste0('[[XX',w[j],']]'), y, fixed = TRUE)
+        y <-
+          gsub(paste0('[[', v[j], ']]'),
+               paste0('[[XX', w[j], ']]'),
+               y,
+               fixed = TRUE)
       }
       y <- gsub(paste0('[[XX'), paste0('[['), y, fixed = TRUE)
       y <- gsub(paste0('{{'), '', y, fixed = TRUE)

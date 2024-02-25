@@ -10,14 +10,14 @@ define_questions_from_csv(ex, file, sep)
 \method{define_questions_from_csv}{exam}(ex, file, sep = ",")
 }
 \arguments{
-\item{ex}{A `exam` object.}
+\item{ex}{An `exam` object.}
 
 \item{file}{A string, name of a text file.}
 
 \item{sep}{Column separator character.}
 }
 \value{
-A `exam`.
+An `exam`.
 }
 \description{
 Each row in the text file is interpreted as a question. We only have to define
@@ -31,8 +31,6 @@ elements.
 Other question definition: 
 \code{\link{define_a_question}()},
 \code{\link{define_questions}()},
-\code{\link{define_questions_from_excel}()},
-\code{\link{generate_correction_document}()},
-\code{\link{generate_document}()}
+\code{\link{define_questions_from_excel}()}
 }
 \concept{question definition}

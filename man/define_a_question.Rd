@@ -18,7 +18,7 @@ define_a_question(ex, type, question, image, image_alt, answer, ...)
 )
 }
 \arguments{
-\item{ex}{A `exam` object.}
+\item{ex}{An `exam` object.}
 
 \item{type}{A string, question type (if needed).}
 
@@ -33,7 +33,7 @@ define_a_question(ex, type, question, image, image_alt, answer, ...)
 \item{...}{A string, options for the gaps in the question.}
 }
 \value{
-A `exam`.
+An `exam`.
 }
 \description{
 Define a question with random components.
@@ -49,8 +49,6 @@ defined in the question.
 Other question definition: 
 \code{\link{define_questions}()},
 \code{\link{define_questions_from_csv}()},
-\code{\link{define_questions_from_excel}()},
-\code{\link{generate_correction_document}()},
-\code{\link{generate_document}()}
+\code{\link{define_questions_from_excel}()}
 }
 \concept{question definition}

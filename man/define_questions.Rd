@@ -10,12 +10,12 @@ define_questions(ex, df)
 \method{define_questions}{exam}(ex, df)
 }
 \arguments{
-\item{ex}{A `exam` object.}
+\item{ex}{An `exam` object.}
 
 \item{df}{A data frame.}
 }
 \value{
-A `exam`.
+An `exam`.
 }
 \description{
 Each row in the text data frame is interpreted as a question. We only have to define
@@ -29,8 +29,6 @@ elements.
 Other question definition: 
 \code{\link{define_a_question}()},
 \code{\link{define_questions_from_csv}()},
-\code{\link{define_questions_from_excel}()},
-\code{\link{generate_correction_document}()},
-\code{\link{generate_document}()}
+\code{\link{define_questions_from_excel}()}
 }
 \concept{question definition}

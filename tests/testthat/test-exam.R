@@ -52,16 +52,16 @@ test_that("exam", {
 
   r2 <- generate_document(ex5, out_dir = tempdir())
 
-  r3 <- generate_document(ex5, out_dir = tempdir(), pages = 'all')
+  r3 <- generate_document(ex5, out_dir = tempdir(), new_pages = 'all')
 
-  r4 <- generate_document(ex5, out_dir = tempdir(), pages = 'none')
+  r4 <- generate_document(ex5, out_dir = tempdir(), new_pages = 'none')
 
   ex6 <- ex5
   ex6$select_n_questions <- 3
-  r5 <- generate_document(ex6, out_dir = tempdir(), pages = 'none')
+  r5 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
 
   ex6$select_n_questions <- 30
-  r6 <- generate_document(ex6, out_dir = tempdir(), pages = 'none')
+  r6 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
 
   expect_equal(ex, structure(
     list(

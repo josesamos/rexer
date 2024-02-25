@@ -14,34 +14,55 @@ exam(
 )
 }
 \arguments{
-\item{rmd}{A string, rmd file, exam template.}
+\item{rmd}{A string representing the path to the Rmd file, the exam template.}
 
-\item{examinees}{A vector, instance names to generate.}
+\item{examinees}{A vector of strings, representing the names of instances to
+generate.}
 
-\item{instances_num}{An integer, number of instances to generate, if the names
-of examinees are not indicated.}
+\item{instances_num}{An integer, representing the number of instances to generate
+if the examinee names are not provided.}
 
-\item{random}{A boolean, random or sequential generation.}
+\item{random}{A boolean, indicating whether to generate instances randomly or
+sequentially.}
 
-\item{reorder_questions}{A boolean, reorder questions in exam.}
+\item{reorder_questions}{A boolean, indicating whether to reorder questions in
+the exam.}
 
-\item{select_n_questions}{An integer, number of questions to include.}
+\item{select_n_questions}{An integer, representing the number of questions to
+include.}
 }
 \value{
-A `exam` object.
+An `exam` object.
 }
 \description{
-Creates a `exam` object.
+Creates an `exam` object.
 }
 \details{
-A test is based on an Rmd template that has predefined parameters, and their
-values are filled in using the functions of this object. The `rmd` parameter
-specifies the template file.
+A test is based on an Rmd template that has predefined parameters whose values
+are filled in using the functions of this object. In the `rmd` parameter, we
+specify the template file.
 
 From the template, we generate multiple instances of the test. We can specify
 the instances to generate in two ways: by indicating a vector of examinee names
-(via the `examinees` parameter) or by specifying the number of instances to
-generate (via the `instances_num` parameter). If both are indicated, the examinee
-names take precedence.
+(using the `examinees` parameter) or by specifying the number of instances to
+generate (using the `instances_num` parameter). If both are indicated, the
+examinee names take precedence.
+
+We can generate the tests either randomly or sequentially, depending on the
+instance number we generate. This is controlled by the `random` parameter.
+
+Additionally, in each test, we can include the questions in the same order as
+they are defined or in random order. This is indicated by the `reorder_questions`
+parameter.
+
+Finally, using the `select_n_questions` parameter, we can specify the number
+of questions to include in each test. From all available questions, the quantity
+specified in this parameter will be randomly selected. By default, all defined
+questions are included.
+}
+\seealso{
+Other exam definition: 
+\code{\link{generate_correction_document}()},
+\code{\link{generate_document}()}
 }
 \concept{exam definition}

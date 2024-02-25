@@ -3,41 +3,44 @@
 \name{generate_document}
 \alias{generate_document}
 \alias{generate_document.exam}
-\title{generate the exam document}
+\title{Generate the exam document}
 \usage{
-generate_document(ex, out_dir, output_format, encoding, pages)
+generate_document(ex, out_dir, output_format, encoding, new_pages)
 
 \method{generate_document}{exam}(
   ex,
   out_dir = NULL,
   output_format = "pdf_document",
   encoding = "UTF-8",
-  pages = NULL
+  new_pages = NULL
 )
 }
 \arguments{
-\item{ex}{A `exam` object.}
+\item{ex}{An `exam` object.}
 
-\item{out_dir}{A string, output folder.}
+\item{out_dir}{A string indicating the output folder.}
 
-\item{output_format}{A vector of strings.}
+\item{output_format}{A vector of strings specifying the desired output formats.}
 
-\item{encoding}{A string.}
+\item{encoding}{A string specifying the encoding.}
 
-\item{pages}{A string, with the values all, none or NULL.}
+\item{new_pages}{A string with the values 'all', 'none', or 'NULL'.}
 }
 \value{
-A `exam` object.
+An `exam` object.
 }
 \description{
-generate the exam document
+From an exam object, we generate different instances of the exam to deliver to
+the individuals being examined. To do this, we need to specify the folder where
+they will be generated (using parameter `out_dir`), the output format (using
+parameter `output_format`), the encoding (using parameter `encoding`), and whether
+we want each question to start on a new page, include questions until the pages
+are filled, or preserve the definition of the question in this regard (using
+parameter `new_pages`).
 }
 \seealso{
-Other question definition: 
-\code{\link{define_a_question}()},
-\code{\link{define_questions}()},
-\code{\link{define_questions_from_csv}()},
-\code{\link{define_questions_from_excel}()},
+Other exam definition: 
+\code{\link{exam}()},
 \code{\link{generate_correction_document}()}
 }
-\concept{question definition}
+\concept{exam definition}

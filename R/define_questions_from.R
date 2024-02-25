@@ -8,7 +8,7 @@
 #' After the answer, the options can be defined to fill in the gaps that have been
 #' defined in the question.
 #'
-#' @param ex A `exam` object.
+#' @param ex An `exam` object.
 #' @param type A string, question type (if needed).
 #' @param question A string, statement of the question.
 #' @param image A string, optional, image file to include in the question.
@@ -16,7 +16,7 @@
 #' @param answer A string, correct answer to the question.
 #' @param ... A string, options for the gaps in the question.
 #'
-#' @return A `exam`.
+#' @return An `exam`.
 #'
 #' @family question definition
 #'
@@ -102,10 +102,10 @@ define_a_question.exam <- function(ex,
 #' For answers where a vector is required, "<|>" is used as a separator of the vector
 #' elements.
 #'
-#' @param ex A `exam` object.
+#' @param ex An `exam` object.
 #' @param df A data frame.
 #'
-#' @return A `exam`.
+#' @return An `exam`.
 #'
 #' @family question definition
 #'
@@ -168,11 +168,11 @@ define_questions.exam <- function(ex, df) {
 #' For answers where a vector is required, "<|>" is used as a separator of the vector
 #' elements.
 #'
-#' @param ex A `exam` object.
+#' @param ex An `exam` object.
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
 #'
-#' @return A `exam`.
+#' @return An `exam`.
 #'
 #' @family question definition
 #'
@@ -203,12 +203,12 @@ define_questions_from_csv.exam <- function(ex, file, sep = ',') {
 #' For answers where a vector is required, "<|>" is used as a separator of the vector
 #' elements.
 #'
-#' @param ex A `exam` object.
+#' @param ex An `exam` object.
 #' @param file A string, name of an Excel file.
 #' @param sheet_index A number, sheet index in the workbook.
 #' @param sheet_name A string, sheet name.
 #'
-#' @return A `exam`.
+#' @return An `exam`.
 #'
 #' @family question definition
 #'
