@@ -2,7 +2,7 @@ test_that("exam", {
   rmd <- system.file("extdata/template01.Rmd", package = "rexer")
   ex <- exam(
     rmd = rmd,
-    examined = NULL,
+    examinees = NULL,
     instances_num = 1,
     random = TRUE,
     reorder_questions = TRUE,
@@ -12,7 +12,7 @@ test_that("exam", {
 
   ex2 <- exam(
     rmd = rmd,
-    examined = c("a", "b", "c"),
+    examinees = c("a", "b", "c"),
     instances_num = 1,
     random = TRUE,
     reorder_questions = TRUE,
@@ -38,6 +38,30 @@ test_that("exam", {
   ex4 <- ex |>
     define_questions(q)
 
+  ex5 <- exam(
+    rmd = rmd,
+    examinees = NULL,
+    instances_num = 1,
+    random = TRUE,
+    reorder_questions = TRUE,
+    select_n_questions = NULL
+  ) |>
+    define_questions(q1)
+
+  r1 <- generate_correction_document(ex5, out_dir = tempdir())
+
+  r2 <- generate_document(ex5, out_dir = tempdir())
+
+  r3 <- generate_document(ex5, out_dir = tempdir(), pages = 'all')
+
+  r4 <- generate_document(ex5, out_dir = tempdir(), pages = 'none')
+
+  ex6 <- ex5
+  ex6$select_n_questions <- 3
+  r5 <- generate_document(ex6, out_dir = tempdir(), pages = 'none')
+
+  ex6$select_n_questions <- 30
+  r6 <- generate_document(ex6, out_dir = tempdir(), pages = 'none')
 
   expect_equal(ex, structure(
     list(
@@ -129,7 +153,6 @@ test_that("exam", {
   },
   "What are the three-letter country code (ISO 3166-1 alpha-3) for **[[1: Mexico]]** and **[[2: Burkina Faso]]**?")
 
-
   expect_equal({
     set.seed(123)
     interpret_a_question(
@@ -141,5 +164,66 @@ test_that("exam", {
   },
   "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?")
 
+  expect_equal({
+    set.seed(123)
+    interpret_questions(
+      ex5$questions,
+      exam_number = 7,
+      random = FALSE,
+      reorder = FALSE,
+      delivery = TRUE
+    )
+  },
+  c("What is the three-letter country code (ISO 3166-1 alpha-3) for Austria?",
+    "What is the three-letter country code (ISO 3166-1 alpha-3) for Mexico?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Belize, Mexico and Burkina Faso?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Burkina Faso, Mexico and Belize?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Belize and Burkina Faso?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Burkina Faso and Belize?"
+  ))
+
+  expect_equal({
+    set.seed(123)
+    interpret_questions(
+      ex5$questions,
+      exam_number = 7,
+      random = FALSE,
+      reorder = TRUE,
+      delivery = TRUE
+    )
+  },
+  c("What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Burkina Faso and Belize?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Belize and Burkina Faso?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Burkina Faso and Belize?",
+    "What is the three-letter country code (ISO 3166-1 alpha-3) for Mexico?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?",
+    "What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Belize and Burkina Faso?",
+    "What is the three-letter country code (ISO 3166-1 alpha-3) for Austria?"
+  ))
+
+  expect_equal({
+    set.seed(123)
+    interpret_all_questions(
+      ex5$questions,
+      exam_number = 7,
+      random = FALSE,
+      reorder = FALSE,
+      delivery = TRUE
+    )
+  }, "\n\n**1.** What is the three-letter country code (ISO 3166-1 alpha-3) for Austria?\n\n**2.** What is the three-letter country code (ISO 3166-1 alpha-3) for Mexico?\n\n**3.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?\n\n**4.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?\n\n**5.** What are the three-letter country code (ISO 3166-1 alpha-3) for Belize, Mexico and Burkina Faso?\n\n**6.** What are the three-letter country code (ISO 3166-1 alpha-3) for Burkina Faso, Mexico and Belize?\n\n**7.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Belize and Burkina Faso?\n\n**8.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Burkina Faso and Belize?")
+
+  expect_equal({
+    set.seed(123)
+    interpret_all_questions(
+      ex5$questions,
+      exam_number = 7,
+      random = FALSE,
+      reorder = TRUE,
+      delivery = TRUE
+    )
+  }, "\n\n**1.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Burkina Faso and Belize?\n\n**2.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Belize and Burkina Faso?\n\n**3.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?\n\n**4.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Burkina Faso and Belize?\n\n**5.** What is the three-letter country code (ISO 3166-1 alpha-3) for Mexico?\n\n**6.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico and Burkina Faso?\n\n**7.** What are the three-letter country code (ISO 3166-1 alpha-3) for Mexico, Belize and Burkina Faso?\n\n**8.** What is the three-letter country code (ISO 3166-1 alpha-3) for Austria?")
 
 })

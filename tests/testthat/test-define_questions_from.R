@@ -2,7 +2,7 @@ test_that("define_questions_from", {
 
   ex <- exam(
     rmd = system.file("extdata/template01.Rmd", package = "rexer"),
-    examined = NULL,
+    examinees = NULL,
     instances_num = 1,
     random = TRUE,
     reorder_questions = TRUE,

@@ -2,10 +2,21 @@
 #'
 #' Creates a `exam` object.
 #'
+#' A test is based on an Rmd template that has predefined parameters, and their
+#' values are filled in using the functions of this object. The `rmd` parameter
+#' specifies the template file.
+#'
+#' From the template, we generate multiple instances of the test. We can specify
+#' the instances to generate in two ways: by indicating a vector of examinee names
+#' (via the `examinees` parameter) or by specifying the number of instances to
+#' generate (via the `instances_num` parameter). If both are indicated, the examinee
+#' names take precedence.
+#'
+#'
 #' @param rmd A string, rmd file, exam template.
-#' @param examined A vector, instance names to generate.
+#' @param examinees A vector, instance names to generate.
 #' @param instances_num An integer, number of instances to generate, if the names
-#' of examined are not indicated.
+#' of examinees are not indicated.
 #' @param random A boolean, random or sequential generation.
 #' @param reorder_questions A boolean, reorder questions in exam.
 #' @param select_n_questions An integer, number of questions to include.
@@ -17,18 +28,18 @@
 #' @export
 exam <-
   function(rmd = NULL,
-           examined = NULL,
+           examinees = NULL,
            instances_num = 1,
            random = TRUE,
            reorder_questions = TRUE,
            select_n_questions = NULL) {
 
     stopifnot("We need a template to define an exam." = !is.null(rmd))
-    if (!is.null(examined)) {
-      examined <- unique(examined)
-      instances_num <- length(examined)
+    if (!is.null(examinees)) {
+      examinees <- unique(examinees)
+      instances_num <- length(examinees)
     } else {
-      examined <- num_vector(end = instances_num)
+      examinees <- num_vector(end = instances_num)
     }
     instances <- num_vector(end = instances_num)
 
@@ -49,7 +60,7 @@ exam <-
         rmd = rmd,
         a_n = 3,
         questions = questions,
-        examined = examined,
+        examined = examinees,
         instances = instances,
         random = random,
         reorder_questions = reorder_questions,

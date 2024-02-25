@@ -6,7 +6,7 @@
 \usage{
 exam(
   rmd = NULL,
-  examined = NULL,
+  examinees = NULL,
   instances_num = 1,
   random = TRUE,
   reorder_questions = TRUE,
@@ -16,10 +16,10 @@ exam(
 \arguments{
 \item{rmd}{A string, rmd file, exam template.}
 
-\item{examined}{A vector, instance names to generate.}
+\item{examinees}{A vector, instance names to generate.}
 
 \item{instances_num}{An integer, number of instances to generate, if the names
-of examined are not indicated.}
+of examinees are not indicated.}
 
 \item{random}{A boolean, random or sequential generation.}
 
@@ -32,5 +32,16 @@ A `exam` object.
 }
 \description{
 Creates a `exam` object.
+}
+\details{
+A test is based on an Rmd template that has predefined parameters, and their
+values are filled in using the functions of this object. The `rmd` parameter
+specifies the template file.
+
+From the template, we generate multiple instances of the test. We can specify
+the instances to generate in two ways: by indicating a vector of examinee names
+(via the `examinees` parameter) or by specifying the number of instances to
+generate (via the `instances_num` parameter). If both are indicated, the examinee
+names take precedence.
 }
 \concept{exam definition}
