@@ -11,16 +11,20 @@ test_that("select", {
 
   r6 <- select_sequential(c('a', 'b', 'c'), n = 4)
 
+  r7 <- select_sequential(c('a', 'b', 'c'), n = 5)
+
   expect_equal(length(r1), 2)
 
   expect_equal(length(r2), 3)
 
   expect_equal(length(r3), 3)
 
-  expect_equal(r4, "a")
+  expect_equal(r4, "c")
 
   expect_equal(r5, "c")
 
   expect_equal(r6, "a")
+
+  expect_equal(r7, "b")
 
 })
