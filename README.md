@@ -7,15 +7,15 @@
 <!-- badges: end -->
 
 The goal of `rexer` is to facilitate the generation of exams
-incorporating random elements. This applies to both the questions
-featured in the exam and the components defined within each question,
-all of which can be randomized. `rexer` is a generalization of the
-*string exercises* found in the
+incorporating random elements to exercises. This applies to both the
+exercises featured in the exam and the components defined within each
+exercise, all of which can be randomized. `rexer` is a generalization of
+the *string exercises* found in the
 [`exams`](https://CRAN.R-project.org/package=exams) package, enabling
-the definition of questions within a table and the inclusion of random
+the definition of exercises within a table and the inclusion of random
 components within specified gaps without the need to include R code.
 
-Incorporating randomness within each question enhances exam security,
+Incorporating randomness within each exercise enhances exam security,
 ensuring that each student is compelled to focus on their own test
 rather than attempting to obtain answers from their peers.
 
@@ -63,9 +63,9 @@ ex <- exam(
   generate_correction_document(out_dir = tempdir(), new_pages = 'none')
 ```
 
-Each exam is generated from an Rmd format template, which includes
-selected questions with defined random components. The content of the
-question file is displayed below.
+Each exam is generated from an *Rmd* format template, which includes
+selected exercises with defined random components. The content of the
+exercise file is displayed below.
 
 ``` csv
 "type","question","image","image_alt","answer","a_1","a_2","a_3"
@@ -83,10 +83,10 @@ version, the gaps can appear in any order. In each question, there can
 be as many gaps as desired, with the number of options we want in each
 gap.
 
-Figures can be included in the questions by simply indicating the
-filename and the caption text. Figures included in each question can
-also be selected like any other element for which a gap and a vector of
-options have been defined.
+Figures can be included in the exercises by simply indicating the file
+name and the caption text. Figures included in each exercise can also be
+selected like any other element for which a gap and a vector of options
+have been defined.
 
 Among the exam generation options, we can choose to generate them
 randomly or based on the generated instance number, so that exams repeat

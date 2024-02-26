@@ -1,0 +1,30 @@
+---
+title: "rexer: Random Exercises and Exams Generator"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{rexer: Random Exercises and Exams Generator}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+
+# Introduction
+
+The goal of `rexer` is to facilitate the generation of exams incorporating random elements to exercises. This applies to both the exercises featured in the exam and the components defined within each exercise, all of which can be randomized. It can be considered as a generalization of the *string exercises* found in the [`exams`](https://CRAN.R-project.org/package=exams) package.
+
+Each exercise is a row in a table. It consists of a statement that may have gaps, as many as deemed necessary, and vectors of strings to fill each of those gaps by selecting one from them. It may also include a figure whose name or description can also have gaps. Additionally, we can indicate the solution either in the form of instructions or through a vector of strings associated with the vectors of the gaps. Incorporating randomness within each exercise enhances exam security, ensuring that each student is compelled to focus on their own test rather than attempting to obtain answers from their peers.
+
+
+Documents can be generated in PDF, HTML, or Word format. It produces a version for conducting the assessment and a version that facilitates the correction, linked through a code.
+
+
+```{r setup}
+library(rexer)
+```
