@@ -60,7 +60,7 @@ ex <- exam(
 ) |>
   define_questions_from_csv(questions) |>
   generate_document(out_dir = tempdir(), new_pages = 'all') |>
-  generate_correction_document(out_dir = tempdir())
+  generate_correction_document(out_dir = tempdir(), new_pages = 'none')
 ```
 
 Each exam is generated from an Rmd format template, which includes
@@ -95,3 +95,8 @@ in a cycle according to the number of elements defined to fill the gaps.
 In any case, for correction, we will have the assistance of the version
 where the filled gaps are highlighted, along with instructions for the
 answer defined for each available option.
+
+Next, an example of a generated exam with correction support is
+provided.
+
+![](man/figures/example01.png)
