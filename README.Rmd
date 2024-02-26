@@ -18,55 +18,64 @@ knitr::opts_chunk$set(
 <!-- badges: start -->
 <!-- badges: end -->
 
-The goal of `rexer` is to ...
+The goal of `rexer` is to facilitate the generation of exams incorporating random elements. This applies to both the questions featured in the exam and the components defined within each question, all of which can be randomized. `rexer` is a generalization of the *string exercises* found in the [`exams`](https://CRAN.R-project.org/package=exams) package, enabling the definition of questions within a table and the inclusion of random components within specified gaps without the need to include R code.
 
-Evaluación continua en clase, los estudiantes están próximos. Generar exámenes similares pero distintos de manera que cada estudiante deba centrarse en la resolución de su examen / que el examen de alguien próximo no le sirva.
+Incorporating randomness within each question enhances exam security, ensuring that each student is compelled to focus on their own test rather than attempting to obtain answers from their peers.
 
-Preguntas similares con componentes cambiantes.
-
-Ayuda para la corrección. 
-
-Selección de preguntas aleatorias.
-
-Poder tener una base de datos de preguntas y seleccionar 
-
-
-Podrían considerarse como *string exercises* del paquete `exams` pero con el componente aleatorio. 
-
-
-Si se indican varias respuestas, se selecciona una de las respuestas y el resto de opciones que se eligen se corresponden a la respuesta seleccionada -> debería haber el mismo número de opciones o un divisor del él para que sea más fácil de entender.
+Documents can be generated in PDF, HTML, or Word format. It produces a version for conducting the assessment and a version that facilitates the correction, linked through a code.
 
 
 ## Installation
 
-You can install the development version of rexer from [GitHub](https://github.com/) with:
+You can install the released version of `rexer` from [CRAN](https://CRAN.R-project.org) with:
 
 ``` r
-# install.packages("devtools")
+install.packages("rexer")
+```
+
+And the development version from [GitHub](https://github.com/) with:
+
+<!-- You can install the development version from [GitHub](https://github.com/) with: -->
+
+``` r
 devtools::install_github("josesamos/rexer")
 ```
 
 ## Example
 
-This is a basic example which shows you how to solve a common problem:
+This is a basic example that shows how to generate 10 exam instances for the students to take and another 10 for correction, using questions included in a CSV file:
 
-```{r example}
+```{r example, eval=FALSE}
 library(rexer)
-## basic example code
+
+rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+questions <- system.file("extdata/questions.csv", package = "rexer")
+ex <- exam(
+  rmd = rmd,
+  examinees = NULL,
+  instances_num = 10,
+  random = TRUE,
+  reorder_questions = TRUE
+) |>
+  define_questions_from_csv(questions) |>
+  generate_document(out_dir = tempdir(), new_pages = 'all') |>
+  generate_correction_document(out_dir = tempdir())
 ```
 
-What is special about using `README.Rmd` instead of just `README.md`? You can include R chunks like so:
+Each exam is generated from an Rmd format template, which includes selected questions with defined random components. The content of the question file is displayed below.
 
-```{r cars}
-# summary(cars)
-```
+````{verbatim, lang = "csv"}
+"type","question","image","image_alt","answer","a_1","a_2","a_3"
+"","What is the three-letter country code (ISO 3166-1 alpha-3) for [[1]]?","","","LTU<|>URY<|>MEX<|>GAB","Lithuania<|>Uruguay<|>Mexico<|>Gabon","",""
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]] and [[2]]?","","","LTU and DMA<|>URY and MLI<|>MEX and BFA<|>GAB and BDI","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi",""
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for {{[[1]], [[2]] and [[3]]}}?","","","1.LTU, 2.DMA, 3.VCT<|>1.URY, 2.MLI, 3.PRY<|>1.MEX, 2.BFA, 3.BLZ<|>1.GAB, 2.BDI, 3.KGZ","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"
+"p","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]] and for the country represented in the figure below?","xxxxx/[[2]]","Country outline.","LTU and GRC<|>URY and GBR<|>MEX and JPN<|>GAB and BRA","Lithuania<|>Uruguay<|>Mexico<|>Gabon","greece.png<|>united_kingdom.png<|>japan.png<|>brazil.png",
+````
 
-You'll still need to render `README.Rmd` regularly, to keep `README.md` up-to-date. `devtools::build_readme()` is handy for this.
+The gaps in the questions are numbered (e.g., "[[1]]") and are filled with the associated elements defined in vector form. It is also possible to define elements that appear in random order (e.g., "{{[[1]], [[2]], and [[3]]}}"), so that in the instantiated version, the gaps can appear in any order. In each question, there can be as many gaps as desired, with the number of options we want in each gap.
 
-You can also embed plots, for example:
+Figures can be included in the questions by simply indicating the filename and the caption text. Figures included in each question can also be selected like any other element for which a gap and a vector of options have been defined.
 
-```{r pressure, echo = FALSE}
-# plot(pressure)
-```
+Among the exam generation options, we can choose to generate them randomly or based on the generated instance number, so that exams repeat in a cycle according to the number of elements defined to fill the gaps.
 
-In that case, don't forget to commit and push the resulting figure files, so they display on GitHub and CRAN.
+In any case, for correction, we will have the assistance of the version where the filled gaps are highlighted, along with instructions for the answer defined for each available option.
