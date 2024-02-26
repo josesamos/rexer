@@ -42,6 +42,23 @@ encoding (using parameter `encoding`), and whether we want each question to
 start on a new page, include questions until the pages are filled, or preserve
 the definition of the question in this regard (using parameter `new_pages`).
 }
+\examples{
+
+\donttest{
+rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+questions <- system.file("extdata/questions.csv", package = "rexer")
+ex <- exam(
+  rmd = rmd,
+  examinees = NULL,
+  instances_num = 1,
+  random = TRUE,
+  reorder_questions = TRUE
+) |>
+  define_questions_from_csv(questions) |>
+  generate_correction_document(out_dir = tempdir())
+}
+
+}
 \seealso{
 Other exam definition: 
 \code{\link{exam}()},

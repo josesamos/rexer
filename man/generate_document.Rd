@@ -24,7 +24,7 @@ generate_document(ex, out_dir, output_format, encoding, new_pages)
 
 \item{encoding}{A string specifying the encoding.}
 
-\item{new_pages}{A string with the values 'all', 'none', or 'NULL'.}
+\item{new_pages}{A string with the values 'all', 'none', or NULL.}
 }
 \value{
 An `exam` object.
@@ -36,7 +36,24 @@ they will be generated (using parameter `out_dir`), the output format (using
 parameter `output_format`), the encoding (using parameter `encoding`), and whether
 we want each question to start on a new page, include questions until the pages
 are filled, or preserve the definition of the question in this regard (using
-parameter `new_pages`).
+parameter `new_pages` with the values 'all', 'none', or NULL).
+}
+\examples{
+
+\donttest{
+rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+questions <- system.file("extdata/questions.csv", package = "rexer")
+ex <- exam(
+  rmd = rmd,
+  examinees = NULL,
+  instances_num = 1,
+  random = TRUE,
+  reorder_questions = TRUE
+) |>
+  define_questions_from_csv(questions) |>
+  generate_document(out_dir = tempdir(), new_pages = 'all')
+}
+
 }
 \seealso{
 Other exam definition: 

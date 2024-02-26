@@ -1,15 +1,20 @@
 #' Define a question
 #'
-#' Define a question with random components.
+#' Defines a question with random components.
 #'
-#' If we include an image in the question, we must also include text in the `alt`
-#' field associated with it.
+#' If an image is included in the question, text in the `image_alt` field associated
+#' with it must also be included.
 #'
-#' After the answer, the options can be defined to fill in the gaps that have been
-#' defined in the question.
+#' Following the answer, options can be defined to fill in the gaps that have been
+#' specified in the question.
+#'
+#' Both the answer and the options are formed by a vector of strings, from which
+#' one is chosen to formulate the question and select the answer. To represent a
+#' vector of strings in a cell, the function `vector_to_string()` is used, which
+#' includes a separator ("<|>") between the vector elements to generate a string.
 #'
 #' @param ex An `exam` object.
-#' @param type A string, question type (if needed).
+#' @param type A character, 'p' indicates whether the question starts on a new page.
 #' @param question A string, statement of the question.
 #' @param image A string, optional, image file to include in the question.
 #' @param image_alt A string, description of the image to include in the question.
@@ -19,6 +24,28 @@
 #' @return An `exam`.
 #'
 #' @family question definition
+#' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
+#'
+#' @examples
+#'
+#' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+#' ex <- exam(
+#'   rmd = rmd,
+#'   examinees = NULL,
+#'   instances_num = 10,
+#'   random = TRUE,
+#'   reorder_questions = TRUE,
+#'   select_n_questions = NULL
+#' ) |>
+#'   define_a_question(
+#'     type = 'p',
+#'     question = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
+#'     the country represented in the figure below?',
+#'     image = paste0(system.file("extdata/figures", package = "rexer"), "/", '[[1]]'),
+#'     image_alt = 'Country outline.',
+#'     answer = 'ESP<|>CHL<|>NZL<|>ITA',
+#'     "spain.png<|>chile.png<|>new_zealand.png<|>italy.png"
+#'   )
 #'
 #' @export
 define_a_question <- function(ex,
@@ -96,18 +123,36 @@ define_a_question.exam <- function(ex,
 
 #' Define questions from a data frame
 #'
-#' Each row in the text data frame is interpreted as a question. We only have to define
-#' the columns that we are going to use, the rest of the columns are taken by default.
+#' Each row in the text data frame is interpreted as a question. We only need to define
+#' the columns that we are going to use; the rest of the columns are taken by default.
 #'
-#' For answers where a vector is required, "<|>" is used as a separator of the vector
-#' elements.
+#' Both the answer and the options are formed by a vector of strings, from which
+#' one is chosen to formulate the question and select the answer. To represent a
+#' vector of strings in a cell, the function `vector_to_string()` is used, which
+#' includes a separator ("<|>") between the vector elements to generate a string.
 #'
 #' @param ex An `exam` object.
-#' @param df A data frame.
+#' @param df A data frame containing questions.
 #'
 #' @return An `exam`.
 #'
 #' @family question definition
+#' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
+#'
+#' @examples
+#'
+#' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+#' questions <- system.file("extdata/questions.csv", package = "rexer")
+#' q <- read_question_csv(questions)
+#' ex <- exam(
+#'   rmd = rmd,
+#'   examinees = NULL,
+#'   instances_num = 10,
+#'   random = TRUE,
+#'   reorder_questions = TRUE,
+#'   select_n_questions = NULL
+#' ) |>
+#'   define_questions(q)
 #'
 #' @export
 define_questions <- function(ex, df)
@@ -162,19 +207,36 @@ define_questions.exam <- function(ex, df) {
 
 #' Define questions from a csv file
 #'
-#' Each row in the text file is interpreted as a question. We only have to define
-#' the columns that we are going to use, the rest of the columns are taken by default.
+#' Each row in the text file is interpreted as a question. We only need to define
+#' the columns that we are going to use; the rest of the columns are taken by default.
 #'
-#' For answers where a vector is required, "<|>" is used as a separator of the vector
-#' elements.
+#' Both the answer and the options are formed by a vector of strings, from which
+#' one is chosen to formulate the question and select the answer. To represent a
+#' vector of strings in a cell, the function `vector_to_string()` is used, which
+#' includes a separator ("<|>") between the vector elements to generate a string.
 #'
 #' @param ex An `exam` object.
 #' @param file A string, name of a text file.
-#' @param sep Column separator character.
+#' @param sep Column separator character ("," or ";").
 #'
 #' @return An `exam`.
 #'
 #' @family question definition
+#' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
+#'
+#' @examples
+#'
+#' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+#' questions <- system.file("extdata/questions.csv", package = "rexer")
+#' ex <- exam(
+#'   rmd = rmd,
+#'   examinees = NULL,
+#'   instances_num = 10,
+#'   random = TRUE,
+#'   reorder_questions = TRUE,
+#'   select_n_questions = NULL
+#' ) |>
+#'   define_questions_from_csv(questions)
 #'
 #' @export
 define_questions_from_csv <- function(ex, file, sep)
@@ -194,14 +256,16 @@ define_questions_from_csv.exam <- function(ex, file, sep = ',') {
 
 #' Define questions from a Excel file
 #'
-#' Each row in the Excel file is interpreted as a question. We only have to define
-#' the columns that we are going to use, the rest of the columns are taken by default.
+#' Each row in the Excel file is interpreted as a question. We only need to define
+#' the columns that we are going to use; the rest of the columns are taken by default.
 #'
 #' In addition to the file, we can indicate the sheet by its name or index. If we
 #' do not indicate anything, it considers the first sheet.
 #'
-#' For answers where a vector is required, "<|>" is used as a separator of the vector
-#' elements.
+#' Both the answer and the options are formed by a vector of strings, from which
+#' one is chosen to formulate the question and select the answer. To represent a
+#' vector of strings in a cell, the function `vector_to_string()` is used, which
+#' includes a separator ("<|>") between the vector elements to generate a string.
 #'
 #' @param ex An `exam` object.
 #' @param file A string, name of an Excel file.
@@ -211,6 +275,21 @@ define_questions_from_csv.exam <- function(ex, file, sep = ',') {
 #' @return An `exam`.
 #'
 #' @family question definition
+#' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
+#'
+#' @examples
+#'
+#' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+#' questions <- system.file("extdata/questions.xlsx", package = "rexer")
+#' ex <- exam(
+#'   rmd = rmd,
+#'   examinees = NULL,
+#'   instances_num = 10,
+#'   random = TRUE,
+#'   reorder_questions = TRUE,
+#'   select_n_questions = NULL
+#' ) |>
+#'   define_questions_from_excel(questions)
 #'
 #' @export
 define_questions_from_excel <- function(ex,

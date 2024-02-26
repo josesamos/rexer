@@ -13,7 +13,7 @@ vector_to_string(vector)
 A string.
 }
 \description{
-Insert the separator that we consider to later perform the reverse operation.
+Insert the separator ("<|>") to later facilitate the reverse operation.
 }
 \examples{
 

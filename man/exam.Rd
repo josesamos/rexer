@@ -60,7 +60,22 @@ of questions to include in each test. From all available questions, the quantity
 specified in this parameter will be randomly selected. By default, all defined
 questions are included.
 }
+\examples{
+
+rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+ex <- exam(
+  rmd = rmd,
+  examinees = NULL,
+  instances_num = 10,
+  random = TRUE,
+  reorder_questions = TRUE,
+  select_n_questions = NULL
+)
+
+}
 \seealso{
+\code{\link{define_a_question}}
+
 Other exam definition: 
 \code{\link{generate_correction_document}()},
 \code{\link{generate_document}()}

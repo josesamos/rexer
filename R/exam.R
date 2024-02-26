@@ -38,6 +38,19 @@
 #' @return An `exam` object.
 #'
 #' @family exam definition
+#' @seealso \code{\link{define_a_question}}
+#'
+#' @examples
+#'
+#' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+#' ex <- exam(
+#'   rmd = rmd,
+#'   examinees = NULL,
+#'   instances_num = 10,
+#'   random = TRUE,
+#'   reorder_questions = TRUE,
+#'   select_n_questions = NULL
+#' )
 #'
 #' @export
 exam <-
@@ -94,17 +107,33 @@ exam <-
 #' parameter `output_format`), the encoding (using parameter `encoding`), and whether
 #' we want each question to start on a new page, include questions until the pages
 #' are filled, or preserve the definition of the question in this regard (using
-#' parameter `new_pages`).
+#' parameter `new_pages` with the values 'all', 'none', or NULL).
 #'
 #' @param ex An `exam` object.
 #' @param out_dir A string indicating the output folder.
 #' @param output_format A vector of strings specifying the desired output formats.
 #' @param encoding A string specifying the encoding.
-#' @param new_pages A string with the values 'all', 'none', or 'NULL'.
+#' @param new_pages A string with the values 'all', 'none', or NULL.
 #'
 #' @return An `exam` object.
 #'
 #' @family exam definition
+#'
+#' @examples
+#'
+#' \donttest{
+#' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+#' questions <- system.file("extdata/questions.csv", package = "rexer")
+#' ex <- exam(
+#'   rmd = rmd,
+#'   examinees = NULL,
+#'   instances_num = 1,
+#'   random = TRUE,
+#'   reorder_questions = TRUE
+#' ) |>
+#'   define_questions_from_csv(questions) |>
+#'   generate_document(out_dir = tempdir(), new_pages = 'all')
+#' }
 #'
 #' @export
 generate_document <-
@@ -205,6 +234,22 @@ generate_document.exam <- function(ex,
 #' @return An `exam` object.
 #'
 #' @family exam definition
+#'
+#' @examples
+#'
+#' \donttest{
+#' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+#' questions <- system.file("extdata/questions.csv", package = "rexer")
+#' ex <- exam(
+#'   rmd = rmd,
+#'   examinees = NULL,
+#'   instances_num = 1,
+#'   random = TRUE,
+#'   reorder_questions = TRUE
+#' ) |>
+#'   define_questions_from_csv(questions) |>
+#'   generate_correction_document(out_dir = tempdir())
+#' }
 #'
 #' @export
 generate_correction_document <-
@@ -393,6 +438,7 @@ interpret_a_question <-
 #' @param txt A string.
 #'
 #' @return A string.
+#'
 #' @keywords internal
 reorder_items <- function(txt) {
   x <- stringr::str_extract_all(txt, "\\{\\{([[:print:]]+)\\}\\}")

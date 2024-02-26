@@ -17,3 +17,4 @@ A vector of strings.
 \description{
 randomly selects the number of elements. If null, returns them all randomly reordered.
 }
+\keyword{internal}

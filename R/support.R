@@ -1,9 +1,11 @@
 
 #' Transforms a vector of strings into a string
 #'
-#' Insert the separator that we consider to later perform the reverse operation.
+#' Insert the separator ("<|>") to later facilitate the reverse operation.
 #'
 #' @param vector A vector of strings.
+#'
+#' @return A string.
 #'
 #' @family support functions
 #'
@@ -11,7 +13,6 @@
 #'
 #' s <- vector_to_string(c('Addition', '+'))
 #'
-#' @return A string.
 #' @export
 vector_to_string <- function(vector) {
   if (is.null(vector)) {
@@ -27,13 +28,14 @@ vector_to_string <- function(vector) {
 #'
 #' Creates an empty question data frame.
 #'
+#' @return A data frame.
+#'
 #' @family support functions
 #'
 #' @examples
 #'
 #' df <- create_question_data_frame()
 #'
-#' @return A data frame.
 #' @export
 create_question_data_frame <- function() {
   questions <-  data.frame(
@@ -58,13 +60,14 @@ create_question_data_frame <- function() {
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
 #'
+#' @return A string.
+#'
 #' @family support functions
 #'
 #' @examples
 #'
 #' file <- create_question_csv(file = tempfile(fileext = '.csv'))
 #'
-#' @return A string.
 #' @export
 create_question_csv <- function(file, sep = ',') {
   questions <- create_question_data_frame()
@@ -84,9 +87,15 @@ create_question_csv <- function(file, sep = ',') {
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
 #'
+#' @return A data frame.
+#'
 #' @family support functions
 #'
-#' @return A data frame.
+#' @examples
+#'
+#' file <- system.file("extdata/questions.csv", package = "rexer")
+#' df <- read_question_csv(file)
+#'
 #' @export
 read_question_csv <- function(file, sep = ',') {
   df <- readr::read_delim(
@@ -105,12 +114,13 @@ read_question_csv <- function(file, sep = ',') {
 }
 
 
-
 #' Create a question Excel file
 #'
 #' Creates an empty question Excel file.
 #'
 #' @param file A string, name of a text file.
+#'
+#' @return A string.
 #'
 #' @family support functions
 #'
@@ -118,7 +128,6 @@ read_question_csv <- function(file, sep = ',') {
 #'
 #' file <- create_question_excel(file = tempfile(fileext = '.xlsx'))
 #'
-#' @return A string.
 #' @export
 create_question_excel <- function(file) {
   questions <- create_question_data_frame()
@@ -144,9 +153,15 @@ create_question_excel <- function(file) {
 #' @param sheet_index A number, sheet index in the workbook.
 #' @param sheet_name A string, sheet name.
 #'
+#' @return A data frame.
+#'
 #' @family support functions
 #'
-#' @return A data frame.
+#' @examples
+#'
+#' file <- system.file("extdata/questions.csv", package = "rexer")
+#' df <- read_question_csv(file)
+#'
 #' @export
 read_question_excel <- function(file,
                                 sheet_index = NULL,

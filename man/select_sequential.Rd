@@ -19,3 +19,4 @@ A string.
 sequentially select an element, the one that corresponds according to the number
 passed as a parameter.
 }
+\keyword{internal}

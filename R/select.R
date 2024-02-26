@@ -6,7 +6,7 @@
 #'
 #' @return A vector of strings.
 #'
-#' @export
+#' @keywords internal
 select_random <- function(vector, n = NULL) {
   l <- length(vector)
   if (is.null(n)) {
@@ -27,7 +27,7 @@ select_random <- function(vector, n = NULL) {
 #'
 #' @return A string.
 #'
-#' @export
+#' @keywords internal
 select_sequential <- function(vector, n = 0) {
   l <- length(vector)
   i <- n %% l

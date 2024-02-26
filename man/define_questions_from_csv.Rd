@@ -14,20 +14,39 @@ define_questions_from_csv(ex, file, sep)
 
 \item{file}{A string, name of a text file.}
 
-\item{sep}{Column separator character.}
+\item{sep}{Column separator character ("," or ";").}
 }
 \value{
 An `exam`.
 }
 \description{
-Each row in the text file is interpreted as a question. We only have to define
-the columns that we are going to use, the rest of the columns are taken by default.
+Each row in the text file is interpreted as a question. We only need to define
+the columns that we are going to use; the rest of the columns are taken by default.
 }
 \details{
-For answers where a vector is required, "<|>" is used as a separator of the vector
-elements.
+Both the answer and the options are formed by a vector of strings, from which
+one is chosen to formulate the question and select the answer. To represent a
+vector of strings in a cell, the function `vector_to_string()` is used, which
+includes a separator ("<|>") between the vector elements to generate a string.
+}
+\examples{
+
+rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+questions <- system.file("extdata/questions.csv", package = "rexer")
+ex <- exam(
+  rmd = rmd,
+  examinees = NULL,
+  instances_num = 10,
+  random = TRUE,
+  reorder_questions = TRUE,
+  select_n_questions = NULL
+) |>
+  define_questions_from_csv(questions)
+
 }
 \seealso{
+\code{\link{exam}}, \code{\link{vector_to_string}}
+
 Other question definition: 
 \code{\link{define_a_question}()},
 \code{\link{define_questions}()},

@@ -23,6 +23,12 @@ Reads an Excel file of questions and returns a data frame.
 In addition to the file, we can indicate the sheet by its name or index. If we
 do not indicate anything, it considers the first sheet.
 }
+\examples{
+
+file <- system.file("extdata/questions.csv", package = "rexer")
+df <- read_question_csv(file)
+
+}
 \seealso{
 Other support functions: 
 \code{\link{create_question_csv}()},

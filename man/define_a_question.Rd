@@ -20,7 +20,7 @@ define_a_question(ex, type, question, image, image_alt, answer, ...)
 \arguments{
 \item{ex}{An `exam` object.}
 
-\item{type}{A string, question type (if needed).}
+\item{type}{A character, 'p' indicates whether the question starts on a new page.}
 
 \item{question}{A string, statement of the question.}
 
@@ -36,16 +36,45 @@ define_a_question(ex, type, question, image, image_alt, answer, ...)
 An `exam`.
 }
 \description{
-Define a question with random components.
+Defines a question with random components.
 }
 \details{
-If we include an image in the question, we must also include text in the `alt`
-field associated with it.
+If an image is included in the question, text in the `image_alt` field associated
+with it must also be included.
 
-After the answer, the options can be defined to fill in the gaps that have been
-defined in the question.
+Following the answer, options can be defined to fill in the gaps that have been
+specified in the question.
+
+Both the answer and the options are formed by a vector of strings, from which
+one is chosen to formulate the question and select the answer. To represent a
+vector of strings in a cell, the function `vector_to_string()` is used, which
+includes a separator ("<|>") between the vector elements to generate a string.
+}
+\examples{
+
+rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+ex <- exam(
+  rmd = rmd,
+  examinees = NULL,
+  instances_num = 10,
+  random = TRUE,
+  reorder_questions = TRUE,
+  select_n_questions = NULL
+) |>
+  define_a_question(
+    type = 'p',
+    question = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
+    the country represented in the figure below?',
+    image = paste0(system.file("extdata/figures", package = "rexer"), "/", '[[1]]'),
+    image_alt = 'Country outline.',
+    answer = 'ESP<|>CHL<|>NZL<|>ITA',
+    "spain.png<|>chile.png<|>new_zealand.png<|>italy.png"
+  )
+
 }
 \seealso{
+\code{\link{exam}}, \code{\link{vector_to_string}}
+
 Other question definition: 
 \code{\link{define_questions}()},
 \code{\link{define_questions_from_csv}()},

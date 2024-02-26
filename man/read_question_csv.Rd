@@ -17,6 +17,12 @@ A data frame.
 \description{
 Reads a csv file of questions and returns a data frame.
 }
+\examples{
+
+file <- system.file("extdata/questions.csv", package = "rexer")
+df <- read_question_csv(file)
+
+}
 \seealso{
 Other support functions: 
 \code{\link{create_question_csv}()},
