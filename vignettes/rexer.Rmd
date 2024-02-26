@@ -23,11 +23,9 @@ Each exercise is a row in a table. It consists of a statement that may have gaps
 
 Documents can be generated in PDF, HTML, or Word format. It produces a version for conducting the assessment and a version that facilitates the correction, linked through a code.
 
-The rest of this document is structured as follows: First, the general process of defining questions is presented. Next, we show the types of questions considered and how to define them. Finally, the document ends with conclusions.
+The rest of this document is structured as follows: First, the general process of defining exercises is presented. Next, we show  . Finally, the document ends with conclusions.
 
-# Question definition process
-
-
+# Exercise definition process
 
 
 ```{r setup}

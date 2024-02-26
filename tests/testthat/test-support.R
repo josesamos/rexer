@@ -32,7 +32,7 @@ test_that("support", {
     structure(
       list(
         type = character(0),
-        question = character(0),
+        statement = character(0),
         image = character(0),
         image_alt = character(0),
         answer = character(0),
@@ -49,7 +49,7 @@ test_that("support", {
                structure(
                  list(
                    type = logical(0),
-                   question = logical(0),
+                   statement = logical(0),
                    image = logical(0),
                    image_alt = logical(0),
                    answer = logical(0),
@@ -70,7 +70,7 @@ test_that("support", {
   expect_equal(ft5, structure(
     list(
       type = character(0),
-      question = character(0),
+      statement = character(0),
       image = character(0),
       image_alt = character(0),
       answer = character(0),
