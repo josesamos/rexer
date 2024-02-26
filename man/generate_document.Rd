@@ -34,23 +34,23 @@ From an exam object, we generate different instances of the exam to deliver to
 the individuals being examined. To do this, we need to specify the folder where
 they will be generated (using parameter `out_dir`), the output format (using
 parameter `output_format`), the encoding (using parameter `encoding`), and whether
-we want each question to start on a new page, include questions until the pages
-are filled, or preserve the definition of the question in this regard (using
+we want each exercise to start on a new page, include exercises until the pages
+are filled, or preserve the definition of the exercise in this regard (using
 parameter `new_pages` with the values 'all', 'none', or NULL).
 }
 \examples{
 
 \donttest{
 rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-questions <- system.file("extdata/questions.csv", package = "rexer")
+exercises <- system.file("extdata/exercises.csv", package = "rexer")
 ex <- exam(
   rmd = rmd,
   examinees = NULL,
   instances_num = 1,
   random = TRUE,
-  reorder_questions = TRUE
+  reorder_exercises = TRUE
 ) |>
-  define_questions_from_csv(questions) |>
+  define_exercises_from_csv(exercises) |>
   generate_document(out_dir = tempdir(), new_pages = 'all')
 }
 

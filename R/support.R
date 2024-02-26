@@ -24,9 +24,9 @@ vector_to_string <- function(vector) {
 }
 
 
-#' Create a question data frame
+#' Create an exercise data frame
 #'
-#' Creates an empty question data frame.
+#' Creates an empty exercise data frame.
 #'
 #' @return A data frame.
 #'
@@ -34,11 +34,11 @@ vector_to_string <- function(vector) {
 #'
 #' @examples
 #'
-#' df <- create_question_data_frame()
+#' df <- create_exercise_data_frame()
 #'
 #' @export
-create_question_data_frame <- function() {
-  questions <-  data.frame(
+create_exercise_data_frame <- function() {
+  exercises <-  data.frame(
     type = character(),
     question = character(),
     image = character(),
@@ -49,13 +49,13 @@ create_question_data_frame <- function() {
     a_3 = character(),
     stringsAsFactors = FALSE
   )
-  questions
+  exercises
 }
 
 
-#' Create a question csv file
+#' Create an exercise csv file
 #'
-#' Creates an empty question csv file.
+#' Creates an empty exercise csv file.
 #'
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
@@ -66,23 +66,23 @@ create_question_data_frame <- function() {
 #'
 #' @examples
 #'
-#' file <- create_question_csv(file = tempfile(fileext = '.csv'))
+#' file <- create_exercise_csv(file = tempfile(fileext = '.csv'))
 #'
 #' @export
-create_question_csv <- function(file, sep = ',') {
-  questions <- create_question_data_frame()
+create_exercise_csv <- function(file, sep = ',') {
+  exercises <- create_exercise_data_frame()
   if (sep == ',') {
-    utils::write.csv(questions, file = file, row.names = FALSE)
+    utils::write.csv(exercises, file = file, row.names = FALSE)
   } else {
-    utils::write.csv2(questions, file = file, row.names = FALSE)
+    utils::write.csv2(exercises, file = file, row.names = FALSE)
   }
   invisible(file)
 }
 
 
-#' Read a question csv file
+#' Read an exercise csv file
 #'
-#' Reads a csv file of questions and returns a data frame.
+#' Reads a csv file of exercises and returns a data frame.
 #'
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
@@ -93,11 +93,11 @@ create_question_csv <- function(file, sep = ',') {
 #'
 #' @examples
 #'
-#' file <- system.file("extdata/questions.csv", package = "rexer")
-#' df <- read_question_csv(file)
+#' file <- system.file("extdata/exercises.csv", package = "rexer")
+#' df <- read_exercise_csv(file)
 #'
 #' @export
-read_question_csv <- function(file, sep = ',') {
+read_exercise_csv <- function(file, sep = ',') {
   df <- readr::read_delim(
     file,
     delim = sep,
@@ -114,9 +114,9 @@ read_question_csv <- function(file, sep = ',') {
 }
 
 
-#' Create a question Excel file
+#' Create an exercise Excel file
 #'
-#' Creates an empty question Excel file.
+#' Creates an empty exercise Excel file.
 #'
 #' @param file A string, name of a text file.
 #'
@@ -126,13 +126,13 @@ read_question_csv <- function(file, sep = ',') {
 #'
 #' @examples
 #'
-#' file <- create_question_excel(file = tempfile(fileext = '.xlsx'))
+#' file <- create_exercise_excel(file = tempfile(fileext = '.xlsx'))
 #'
 #' @export
-create_question_excel <- function(file) {
-  questions <- create_question_data_frame()
+create_exercise_excel <- function(file) {
+  exercises <- create_exercise_data_frame()
   xlsx::write.xlsx(
-    as.data.frame(questions),
+    as.data.frame(exercises),
     file = file,
     sheetName = 'moodef',
     row.names = FALSE,
@@ -142,9 +142,9 @@ create_question_excel <- function(file) {
 }
 
 
-#' Read a question Excel file
+#' Read an exercise Excel file
 #'
-#' Reads an Excel file of questions and returns a data frame.
+#' Reads an Excel file of exercises and returns a data frame.
 #'
 #' In addition to the file, we can indicate the sheet by its name or index. If we
 #' do not indicate anything, it considers the first sheet.
@@ -159,11 +159,11 @@ create_question_excel <- function(file) {
 #'
 #' @examples
 #'
-#' file <- system.file("extdata/questions.csv", package = "rexer")
-#' df <- read_question_csv(file)
+#' file <- system.file("extdata/exercises.csv", package = "rexer")
+#' df <- read_exercise_csv(file)
 #'
 #' @export
-read_question_excel <- function(file,
+read_exercise_excel <- function(file,
                                 sheet_index = NULL,
                                 sheet_name = NULL) {
   if (is.null(sheet_index) & is.null(sheet_name)) {

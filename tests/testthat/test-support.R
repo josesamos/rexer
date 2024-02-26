@@ -1,22 +1,22 @@
 test_that("support", {
   f1 <- tempfile(fileext = ".csv")
-  r1 <- create_question_csv(file = f1, sep = ',')
+  r1 <- create_exercise_csv(file = f1, sep = ',')
   f2 <- tempfile(fileext = ".csv")
-  r2 <- create_question_csv(file = f2, sep = ';')
+  r2 <- create_exercise_csv(file = f2, sep = ';')
 
   ft1 <- utils::read.csv(f1)
 
   ft2 <- utils::read.csv2(f2)
 
-  f3 <- system.file("extdata/questions.csv", package = "rexer")
-  ft3 <- read_question_csv(f3)
+  f3 <- system.file("extdata/exercises.csv", package = "rexer")
+  ft3 <- read_exercise_csv(f3)
 
-  f4 <- system.file("extdata/questions.xlsx", package = "rexer")
-  ft4 <- read_question_excel(f4)
-  ft41 <- read_question_excel(f4, sheet_index = 1)
+  f4 <- system.file("extdata/exercises.xlsx", package = "rexer")
+  ft4 <- read_exercise_excel(f4)
+  ft41 <- read_exercise_excel(f4, sheet_index = 1)
 
   f5 <- tempfile(fileext = ".xlsx")
-  r5 <- create_question_excel(file = f5)
+  r5 <- create_exercise_excel(file = f5)
   ft5 <- readxl::read_excel(f5,
                             col_names = TRUE,
                             col_types = "text",
@@ -28,7 +28,7 @@ test_that("support", {
   expect_equal(vector_to_string(NULL), "")
 
   expect_equal(
-    create_question_data_frame(),
+    create_exercise_data_frame(),
     structure(
       list(
         type = character(0),

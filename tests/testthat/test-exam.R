@@ -5,8 +5,8 @@ test_that("exam", {
     examinees = NULL,
     instances_num = 1,
     random = TRUE,
-    reorder_questions = TRUE,
-    select_n_questions = NULL
+    reorder_exercises = TRUE,
+    select_n_exercises = NULL
   )
   ex$rmd <- basename(ex$rmd)
 
@@ -15,8 +15,8 @@ test_that("exam", {
     examinees = c("a", "b", "c"),
     instances_num = 1,
     random = TRUE,
-    reorder_questions = TRUE,
-    select_n_questions = NULL
+    reorder_exercises = TRUE,
+    select_n_exercises = NULL
   )
 
   txt <-
@@ -25,28 +25,28 @@ test_that("exam", {
   txt <- reorder_items(txt)
 
 
-  f3 <- system.file("extdata/questions.csv", package = "rexer")
-  ex3 <- define_questions_from_csv(ex, f3)
+  f3 <- system.file("extdata/exercises.csv", package = "rexer")
+  ex3 <- define_exercises_from_csv(ex, f3)
 
   q1 <-
-    read_question_csv(file = system.file("extdata/questions.csv", package = "rexer"))
+    read_exercise_csv(file = system.file("extdata/exercises.csv", package = "rexer"))
   q2 <-
-    read_question_csv(file = system.file("extdata/questions_image.csv", package = "rexer"))
+    read_exercise_csv(file = system.file("extdata/exercises_image.csv", package = "rexer"))
   f <- system.file("extdata/figures", package = "rexer")
   q2$image <- gsub("xxxxx", f, q2$image, fixed = TRUE)
   q <- rbind(q1, q2)
   ex4 <- ex |>
-    define_questions(q)
+    define_exercises(q)
 
   ex5 <- exam(
     rmd = rmd,
     examinees = NULL,
     instances_num = 1,
     random = TRUE,
-    reorder_questions = TRUE,
-    select_n_questions = NULL
+    reorder_exercises = TRUE,
+    select_n_exercises = NULL
   ) |>
-    define_questions(q1)
+    define_exercises(q1)
 
   r1 <- generate_correction_document(ex5, out_dir = tempdir())
 
@@ -57,17 +57,17 @@ test_that("exam", {
   r4 <- generate_document(ex5, out_dir = tempdir(), new_pages = 'none')
 
   ex6 <- ex5
-  ex6$select_n_questions <- 3
+  ex6$select_n_exercises <- 3
   r5 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
 
-  ex6$select_n_questions <- 30
+  ex6$select_n_exercises <- 30
   r6 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
 
   expect_equal(ex, structure(
     list(
       rmd = "template01.Rmd",
       a_n = 3,
-      questions = structure(
+      exercises = structure(
         list(
           type = character(0),
           question = character(0),
@@ -84,8 +84,8 @@ test_that("exam", {
       examined = "1",
       instances = "1",
       random = TRUE,
-      reorder_questions = TRUE,
-      select_n_questions = NULL,
+      reorder_exercises = TRUE,
+      select_n_exercises = NULL,
       delivery = TRUE,
       seed = 173
     ),
@@ -100,8 +100,8 @@ test_that("exam", {
   )
 
   expect_equal(
-    interpret_a_question(
-      question = ex4$questions[2,],
+    interpret_an_exercise(
+      exercise = ex4$exercises[2,],
       exam_number = 5,
       random = FALSE,
       delivery = TRUE
@@ -110,8 +110,8 @@ test_that("exam", {
   )
 
   expect_equal(
-    interpret_a_question(
-      question = ex4$questions[2,],
+    interpret_an_exercise(
+      exercise = ex4$exercises[2,],
       exam_number = 5,
       random = FALSE,
       delivery = FALSE
@@ -121,8 +121,8 @@ test_that("exam", {
 
   expect_equal({
     set.seed(123)
-    interpret_a_question(
-      question = ex4$questions[2,],
+    interpret_an_exercise(
+      exercise = ex4$exercises[2,],
       exam_number = 5,
       random = TRUE,
       delivery = FALSE
@@ -131,10 +131,10 @@ test_that("exam", {
   "What is the three-letter country code (ISO 3166-1 alpha-3) for **[[1: Mexico]]**?\n\n**Answer:**\n\nMEX\n\n\n")
 
   expect_equal({
-    q <- ex4$questions[9,]
+    q <- ex4$exercises[9,]
     q$image <- "spain.png"
-    interpret_a_question(
-      question = q,
+    interpret_an_exercise(
+      exercise = q,
       exam_number = 5,
       random = FALSE,
       delivery = FALSE
@@ -144,8 +144,8 @@ test_that("exam", {
 
   expect_equal({
     set.seed(123)
-    interpret_a_question(
-      question = ex4$questions[4, ],
+    interpret_an_exercise(
+      exercise = ex4$exercises[4, ],
       exam_number = 5,
       random = TRUE,
       delivery = FALSE
@@ -155,8 +155,8 @@ test_that("exam", {
 
   expect_equal({
     set.seed(123)
-    interpret_a_question(
-      question = ex4$questions[4, ],
+    interpret_an_exercise(
+      exercise = ex4$exercises[4, ],
       exam_number = 5,
       random = TRUE,
       delivery = TRUE
@@ -166,8 +166,8 @@ test_that("exam", {
 
   expect_equal({
     set.seed(123)
-    interpret_questions(
-      ex5$questions,
+    interpret_exercises(
+      ex5$exercises,
       exam_number = 7,
       random = FALSE,
       reorder = FALSE,
@@ -186,8 +186,8 @@ test_that("exam", {
 
   expect_equal({
     set.seed(123)
-    interpret_questions(
-      ex5$questions,
+    interpret_exercises(
+      ex5$exercises,
       exam_number = 7,
       random = FALSE,
       reorder = TRUE,
@@ -206,8 +206,8 @@ test_that("exam", {
 
   expect_equal({
     set.seed(123)
-    interpret_all_questions(
-      ex5$questions,
+    interpret_all_exercises(
+      ex5$exercises,
       exam_number = 7,
       random = FALSE,
       reorder = FALSE,
@@ -217,8 +217,8 @@ test_that("exam", {
 
   expect_equal({
     set.seed(123)
-    interpret_all_questions(
-      ex5$questions,
+    interpret_all_exercises(
+      ex5$exercises,
       exam_number = 7,
       random = FALSE,
       reorder = TRUE,

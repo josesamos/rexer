@@ -9,8 +9,8 @@ exam(
   examinees = NULL,
   instances_num = 1,
   random = TRUE,
-  reorder_questions = TRUE,
-  select_n_questions = NULL
+  reorder_exercises = TRUE,
+  select_n_exercises = NULL
 )
 }
 \arguments{
@@ -25,10 +25,10 @@ if the examinee names are not provided.}
 \item{random}{A boolean, indicating whether to generate instances randomly or
 sequentially.}
 
-\item{reorder_questions}{A boolean, indicating whether to reorder questions in
+\item{reorder_exercises}{A boolean, indicating whether to reorder exercises in
 the exam.}
 
-\item{select_n_questions}{An integer, representing the number of questions to
+\item{select_n_exercises}{An integer, representing the number of exercises to
 include.}
 }
 \value{
@@ -51,14 +51,14 @@ examinee names take precedence.
 We can generate the tests either randomly or sequentially, depending on the
 instance number we generate. This is controlled by the `random` parameter.
 
-Additionally, in each test, we can include the questions in the same order as
-they are defined or in random order. This is indicated by the `reorder_questions`
+Additionally, in each test, we can include the exercises in the same order as
+they are defined or in random order. This is indicated by the `reorder_exercises`
 parameter.
 
-Finally, using the `select_n_questions` parameter, we can specify the number
-of questions to include in each test. From all available questions, the quantity
+Finally, using the `select_n_exercises` parameter, we can specify the number
+of exercises to include in each test. From all available exercises, the quantity
 specified in this parameter will be randomly selected. By default, all defined
-questions are included.
+exercises are included.
 }
 \examples{
 
@@ -68,13 +68,13 @@ ex <- exam(
   examinees = NULL,
   instances_num = 10,
   random = TRUE,
-  reorder_questions = TRUE,
-  select_n_questions = NULL
+  reorder_exercises = TRUE,
+  select_n_exercises = NULL
 )
 
 }
 \seealso{
-\code{\link{define_a_question}}
+\code{\link{define_an_exercise}}
 
 Other exam definition: 
 \code{\link{generate_correction_document}()},

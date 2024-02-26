@@ -1,29 +1,29 @@
-#' Define a question
+#' Define an exercise
 #'
-#' Defines a question with random components.
+#' Defines an exercise with random components.
 #'
-#' If an image is included in the question, text in the `image_alt` field associated
+#' If an image is included in the exercise, text in the `image_alt` field associated
 #' with it must also be included.
 #'
 #' Following the answer, options can be defined to fill in the gaps that have been
-#' specified in the question.
+#' specified in the exercise.
 #'
 #' Both the answer and the options are formed by a vector of strings, from which
-#' one is chosen to formulate the question and select the answer. To represent a
+#' one is chosen to formulate the exercise and select the answer. To represent a
 #' vector of strings in a cell, the function `vector_to_string()` is used, which
 #' includes a separator ("<|>") between the vector elements to generate a string.
 #'
 #' @param ex An `exam` object.
-#' @param type A character, 'p' indicates whether the question starts on a new page.
-#' @param question A string, statement of the question.
-#' @param image A string, optional, image file to include in the question.
-#' @param image_alt A string, description of the image to include in the question.
-#' @param answer A string, correct answer to the question.
-#' @param ... A string, options for the gaps in the question.
+#' @param type A character, 'p' indicates whether the exercise starts on a new page.
+#' @param question A string, statement of the exercise.
+#' @param image A string, optional, image file to include in the exercise.
+#' @param image_alt A string, description of the image to include in the exercise.
+#' @param answer A string, correct answer to the exercise.
+#' @param ... A string, options for the gaps in the exercise.
 #'
 #' @return An `exam`.
 #'
-#' @family question definition
+#' @family exercise definition
 #' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
 #'
 #' @examples
@@ -34,10 +34,10 @@
 #'   examinees = NULL,
 #'   instances_num = 10,
 #'   random = TRUE,
-#'   reorder_questions = TRUE,
-#'   select_n_questions = NULL
+#'   reorder_exercises = TRUE,
+#'   select_n_exercises = NULL
 #' ) |>
-#'   define_a_question(
+#'   define_an_exercise(
 #'     type = 'p',
 #'     question = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
 #'     the country represented in the figure below?',
@@ -48,19 +48,19 @@
 #'   )
 #'
 #' @export
-define_a_question <- function(ex,
+define_an_exercise <- function(ex,
                               type,
                               question,
                               image,
                               image_alt,
                               answer,
                               ...)
-  UseMethod("define_a_question")
+  UseMethod("define_an_exercise")
 
 
-#' @rdname define_a_question
+#' @rdname define_an_exercise
 #' @export
-define_a_question.exam <- function(ex,
+define_an_exercise.exam <- function(ex,
                                    type = '',
                                    question = '',
                                    image = '',
@@ -103,64 +103,64 @@ define_a_question.exam <- function(ex,
       nq[1, paste0('a_', i)] <- ''
     }
   }
-  if (nrow(ex$questions) > 0) {
+  if (nrow(ex$exercises) > 0) {
     if (n > ex$a_n) {
       for (i in (ex$a_n + 1):n) {
-        ex$questions[, paste0('a_', i)] <- ''
+        ex$exercises[, paste0('a_', i)] <- ''
       }
       ex$a_n <- n
     }
-    ex$questions <- rbind(ex$questions, nq)
+    ex$exercises <- rbind(ex$exercises, nq)
   } else {
     if (n > ex$a_n) {
       ex$a_n <- n
     }
-    ex$questions <- nq
+    ex$exercises <- nq
   }
   ex
 }
 
 
-#' Define questions from a data frame
+#' Define exercises from a data frame
 #'
-#' Each row in the text data frame is interpreted as a question. We only need to define
+#' Each row in the text data frame is interpreted as an exercise. We only need to define
 #' the columns that we are going to use; the rest of the columns are taken by default.
 #'
 #' Both the answer and the options are formed by a vector of strings, from which
-#' one is chosen to formulate the question and select the answer. To represent a
+#' one is chosen to formulate the exercise and select the answer. To represent a
 #' vector of strings in a cell, the function `vector_to_string()` is used, which
 #' includes a separator ("<|>") between the vector elements to generate a string.
 #'
 #' @param ex An `exam` object.
-#' @param df A data frame containing questions.
+#' @param df A data frame containing exercises.
 #'
 #' @return An `exam`.
 #'
-#' @family question definition
+#' @family exercise definition
 #' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
 #'
 #' @examples
 #'
 #' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-#' questions <- system.file("extdata/questions.csv", package = "rexer")
-#' q <- read_question_csv(questions)
+#' exercises <- system.file("extdata/exercises.csv", package = "rexer")
+#' q <- read_exercise_csv(exercises)
 #' ex <- exam(
 #'   rmd = rmd,
 #'   examinees = NULL,
 #'   instances_num = 10,
 #'   random = TRUE,
-#'   reorder_questions = TRUE,
-#'   select_n_questions = NULL
+#'   reorder_exercises = TRUE,
+#'   select_n_exercises = NULL
 #' ) |>
-#'   define_questions(q)
+#'   define_exercises(q)
 #'
 #' @export
-define_questions <- function(ex, df)
-  UseMethod("define_questions")
+define_exercises <- function(ex, df)
+  UseMethod("define_exercises")
 
-#' @rdname define_questions
+#' @rdname define_exercises
 #' @export
-define_questions.exam <- function(ex, df) {
+define_exercises.exam <- function(ex, df) {
   attributes <- names(df)
   df[, attributes] <-
     data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
@@ -179,7 +179,7 @@ define_questions.exam <- function(ex, df) {
             c("type", "question", "image", "image_alt", "answer"))
   for (i in 1:nrow(df)) {
     text <- paste0(
-      'define_a_question(ex, type = "',
+      'define_an_exercise(ex, type = "',
       df[i, 'type'],
       '", question = "',
       df[i, 'question'],
@@ -205,13 +205,13 @@ define_questions.exam <- function(ex, df) {
 }
 
 
-#' Define questions from a csv file
+#' Define exercises from a csv file
 #'
-#' Each row in the text file is interpreted as a question. We only need to define
+#' Each row in the text file is interpreted as an exercise. We only need to define
 #' the columns that we are going to use; the rest of the columns are taken by default.
 #'
 #' Both the answer and the options are formed by a vector of strings, from which
-#' one is chosen to formulate the question and select the answer. To represent a
+#' one is chosen to formulate the exercise and select the answer. To represent a
 #' vector of strings in a cell, the function `vector_to_string()` is used, which
 #' includes a separator ("<|>") between the vector elements to generate a string.
 #'
@@ -221,49 +221,49 @@ define_questions.exam <- function(ex, df) {
 #'
 #' @return An `exam`.
 #'
-#' @family question definition
+#' @family exercise definition
 #' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
 #'
 #' @examples
 #'
 #' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-#' questions <- system.file("extdata/questions.csv", package = "rexer")
+#' exercises <- system.file("extdata/exercises.csv", package = "rexer")
 #' ex <- exam(
 #'   rmd = rmd,
 #'   examinees = NULL,
 #'   instances_num = 10,
 #'   random = TRUE,
-#'   reorder_questions = TRUE,
-#'   select_n_questions = NULL
+#'   reorder_exercises = TRUE,
+#'   select_n_exercises = NULL
 #' ) |>
-#'   define_questions_from_csv(questions)
+#'   define_exercises_from_csv(exercises)
 #'
 #' @export
-define_questions_from_csv <- function(ex, file, sep)
-  UseMethod("define_questions_from_csv")
+define_exercises_from_csv <- function(ex, file, sep)
+  UseMethod("define_exercises_from_csv")
 
-#' @rdname define_questions_from_csv
+#' @rdname define_exercises_from_csv
 #' @export
-define_questions_from_csv.exam <- function(ex, file, sep = ',') {
+define_exercises_from_csv.exam <- function(ex, file, sep = ',') {
   df <- readr::read_delim(
     file,
     delim = sep,
     col_types = readr::cols(.default = readr::col_character())
   )
-  define_questions(ex, df)
+  define_exercises(ex, df)
 }
 
 
-#' Define questions from a Excel file
+#' Define exercises from a Excel file
 #'
-#' Each row in the Excel file is interpreted as a question. We only need to define
+#' Each row in the Excel file is interpreted as an exercise. We only need to define
 #' the columns that we are going to use; the rest of the columns are taken by default.
 #'
 #' In addition to the file, we can indicate the sheet by its name or index. If we
 #' do not indicate anything, it considers the first sheet.
 #'
 #' Both the answer and the options are formed by a vector of strings, from which
-#' one is chosen to formulate the question and select the answer. To represent a
+#' one is chosen to formulate the exercise and select the answer. To represent a
 #' vector of strings in a cell, the function `vector_to_string()` is used, which
 #' includes a separator ("<|>") between the vector elements to generate a string.
 #'
@@ -274,33 +274,33 @@ define_questions_from_csv.exam <- function(ex, file, sep = ',') {
 #'
 #' @return An `exam`.
 #'
-#' @family question definition
+#' @family exercise definition
 #' @seealso \code{\link{exam}}, \code{\link{vector_to_string}}
 #'
 #' @examples
 #'
 #' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-#' questions <- system.file("extdata/questions.xlsx", package = "rexer")
+#' exercises <- system.file("extdata/exercises.xlsx", package = "rexer")
 #' ex <- exam(
 #'   rmd = rmd,
 #'   examinees = NULL,
 #'   instances_num = 10,
 #'   random = TRUE,
-#'   reorder_questions = TRUE,
-#'   select_n_questions = NULL
+#'   reorder_exercises = TRUE,
+#'   select_n_exercises = NULL
 #' ) |>
-#'   define_questions_from_excel(questions)
+#'   define_exercises_from_excel(exercises)
 #'
 #' @export
-define_questions_from_excel <- function(ex,
+define_exercises_from_excel <- function(ex,
                                         file,
                                         sheet_index,
                                         sheet_name)
-  UseMethod("define_questions_from_excel")
+  UseMethod("define_exercises_from_excel")
 
-#' @rdname define_questions_from_excel
+#' @rdname define_exercises_from_excel
 #' @export
-define_questions_from_excel.exam <- function(ex,
+define_exercises_from_excel.exam <- function(ex,
                                              file,
                                              sheet_index = NULL,
                                              sheet_name = NULL) {
@@ -319,5 +319,5 @@ define_questions_from_excel.exam <- function(ex,
       trim_ws = TRUE
     )
   )
-  define_questions(ex, df)
+  define_exercises(ex, df)
 }

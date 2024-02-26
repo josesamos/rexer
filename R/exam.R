@@ -15,14 +15,14 @@
 #' We can generate the tests either randomly or sequentially, depending on the
 #' instance number we generate. This is controlled by the `random` parameter.
 #'
-#' Additionally, in each test, we can include the questions in the same order as
-#' they are defined or in random order. This is indicated by the `reorder_questions`
+#' Additionally, in each test, we can include the exercises in the same order as
+#' they are defined or in random order. This is indicated by the `reorder_exercises`
 #' parameter.
 #'
-#' Finally, using the `select_n_questions` parameter, we can specify the number
-#' of questions to include in each test. From all available questions, the quantity
+#' Finally, using the `select_n_exercises` parameter, we can specify the number
+#' of exercises to include in each test. From all available exercises, the quantity
 #' specified in this parameter will be randomly selected. By default, all defined
-#' questions are included.
+#' exercises are included.
 #'
 #' @param rmd A string representing the path to the Rmd file, the exam template.
 #' @param examinees A vector of strings, representing the names of instances to
@@ -31,14 +31,14 @@
 #' if the examinee names are not provided.
 #' @param random A boolean, indicating whether to generate instances randomly or
 #' sequentially.
-#' @param reorder_questions A boolean, indicating whether to reorder questions in
+#' @param reorder_exercises A boolean, indicating whether to reorder exercises in
 #' the exam.
-#' @param select_n_questions An integer, representing the number of questions to
+#' @param select_n_exercises An integer, representing the number of exercises to
 #' include.
 #' @return An `exam` object.
 #'
 #' @family exam definition
-#' @seealso \code{\link{define_a_question}}
+#' @seealso \code{\link{define_an_exercise}}
 #'
 #' @examples
 #'
@@ -48,8 +48,8 @@
 #'   examinees = NULL,
 #'   instances_num = 10,
 #'   random = TRUE,
-#'   reorder_questions = TRUE,
-#'   select_n_questions = NULL
+#'   reorder_exercises = TRUE,
+#'   select_n_exercises = NULL
 #' )
 #'
 #' @export
@@ -58,8 +58,8 @@ exam <-
            examinees = NULL,
            instances_num = 1,
            random = TRUE,
-           reorder_questions = TRUE,
-           select_n_questions = NULL) {
+           reorder_exercises = TRUE,
+           select_n_exercises = NULL) {
     stopifnot("We need a template to define an exam." = !is.null(rmd))
     if (!is.null(examinees)) {
       examinees <- unique(examinees)
@@ -69,7 +69,7 @@ exam <-
     }
     instances <- num_vector(end = instances_num)
 
-    questions <-  data.frame(
+    exercises <-  data.frame(
       type = character(),
       question = character(),
       image = character(),
@@ -85,12 +85,12 @@ exam <-
       list(
         rmd = rmd,
         a_n = 3,
-        questions = questions,
+        exercises = exercises,
         examined = examinees,
         instances = instances,
         random = random,
-        reorder_questions = reorder_questions,
-        select_n_questions = select_n_questions,
+        reorder_exercises = reorder_exercises,
+        select_n_exercises = select_n_exercises,
         delivery = TRUE,
         seed = 173
       ),
@@ -105,8 +105,8 @@ exam <-
 #' the individuals being examined. To do this, we need to specify the folder where
 #' they will be generated (using parameter `out_dir`), the output format (using
 #' parameter `output_format`), the encoding (using parameter `encoding`), and whether
-#' we want each question to start on a new page, include questions until the pages
-#' are filled, or preserve the definition of the question in this regard (using
+#' we want each exercise to start on a new page, include exercises until the pages
+#' are filled, or preserve the definition of the exercise in this regard (using
 #' parameter `new_pages` with the values 'all', 'none', or NULL).
 #'
 #' @param ex An `exam` object.
@@ -123,15 +123,15 @@ exam <-
 #'
 #' \donttest{
 #' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-#' questions <- system.file("extdata/questions.csv", package = "rexer")
+#' exercises <- system.file("extdata/exercises.csv", package = "rexer")
 #' ex <- exam(
 #'   rmd = rmd,
 #'   examinees = NULL,
 #'   instances_num = 1,
 #'   random = TRUE,
-#'   reorder_questions = TRUE
+#'   reorder_exercises = TRUE
 #' ) |>
-#'   define_questions_from_csv(questions) |>
+#'   define_exercises_from_csv(exercises) |>
 #'   generate_document(out_dir = tempdir(), new_pages = 'all')
 #' }
 #'
@@ -156,41 +156,41 @@ generate_document.exam <- function(ex,
   }
   set.seed(ex$seed)
   exam_number <- 1
-  n <- nrow(ex$questions)
-  if (is.null(ex$select_n_questions)) {
-    select_n_questions <- n
-  } else if (ex$select_n_questions > n) {
-    select_n_questions <- n
+  n <- nrow(ex$exercises)
+  if (is.null(ex$select_n_exercises)) {
+    select_n_exercises <- n
+  } else if (ex$select_n_exercises > n) {
+    select_n_exercises <- n
   } else {
-    select_n_questions <- ex$select_n_questions
+    select_n_exercises <- ex$select_n_exercises
   }
-  sel_questions <- ex$questions
+  sel_exercises <- ex$exercises
   if (!is.null(new_pages)) {
     if (tolower(new_pages) == 'all') {
-      sel_questions$type <- "p"
+      sel_exercises$type <- "p"
     } else {
-      sel_questions$type <- ""
+      sel_exercises$type <- ""
     }
   }
   for (examined in ex$examined) {
-    if (select_n_questions < n) {
-      i <- sample.int(n, select_n_questions)
-      if (!ex$reorder_questions) {
+    if (select_n_exercises < n) {
+      i <- sample.int(n, select_n_exercises)
+      if (!ex$reorder_exercises) {
         i <- sort(i)
       }
-      sel_questions <- ex$questions[i, ]
+      sel_exercises <- ex$exercises[i, ]
     }
-    questions <-
-      interpret_questions(sel_questions,
+    exercises <-
+      interpret_exercises(sel_exercises,
                           exam_number,
                           ex$random,
-                          ex$reorder_questions,
+                          ex$reorder_exercises,
                           ex$delivery)
-    all_questions <-
-      interpret_all_questions(sel_questions,
+    all_exercises <-
+      interpret_all_exercises(sel_exercises,
                               exam_number,
                               ex$random,
-                              ex$reorder_questions,
+                              ex$reorder_exercises,
                               ex$delivery)
 
     rmarkdown::render(
@@ -202,8 +202,8 @@ generate_document.exam <- function(ex,
         exam_number = exam_number,
         exam_number_str = ex$instances[exam_number],
         examined = examined,
-        questions = questions,
-        all_questions = all_questions
+        exercises = exercises,
+        all_exercises = all_exercises
       )
     )
     exam_number <- exam_number + 1
@@ -216,14 +216,14 @@ generate_document.exam <- function(ex,
 #'
 #' From an exam object, we can generate instances that serve as support for the
 #' correction of the exam. Each instance will include the answers, if they are
-#' indicated, associated with the questions. In any case, the randomly included
+#' indicated, associated with the exercises. In any case, the randomly included
 #' part of the exam will be highlighted.
 #'
 #' To do this, we specify the folder where the documents will be generated (using
 #' parameter `out_dir`), the output format (using parameter `output_format`), the
-#' encoding (using parameter `encoding`), and whether we want each question to
-#' start on a new page, include questions until the pages are filled, or preserve
-#' the definition of the question in this regard (using parameter `new_pages`).
+#' encoding (using parameter `encoding`), and whether we want each exercise to
+#' start on a new page, include exercises until the pages are filled, or preserve
+#' the definition of the exercise in this regard (using parameter `new_pages`).
 #'
 #' @param ex An `exam` object.
 #' @param out_dir A string indicating the output folder.
@@ -239,15 +239,15 @@ generate_document.exam <- function(ex,
 #'
 #' \donttest{
 #' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-#' questions <- system.file("extdata/questions.csv", package = "rexer")
+#' exercises <- system.file("extdata/exercises.csv", package = "rexer")
 #' ex <- exam(
 #'   rmd = rmd,
 #'   examinees = NULL,
 #'   instances_num = 1,
 #'   random = TRUE,
-#'   reorder_questions = TRUE
+#'   reorder_exercises = TRUE
 #' ) |>
-#'   define_questions_from_csv(questions) |>
+#'   define_exercises_from_csv(exercises) |>
 #'   generate_correction_document(out_dir = tempdir())
 #' }
 #'
@@ -276,61 +276,61 @@ generate_correction_document.exam <-
   }
 
 
-#' interpret all question
+#' interpret all exercise
 #'
-#' @param questions A data frame, questions.
+#' @param exercises A data frame, exercises.
 #' @param exam_number An integer, exam sequence number
 #' @param random A boolean, is random generation.
-#' @param reorder A boolean, reorder questions.
+#' @param reorder A boolean, reorder exercises.
 #' @param delivery A boolean, is delivery version.
 #'
 #' @return A string.
 #' @keywords internal
-interpret_all_questions <-
-  function(questions,
+interpret_all_exercises <-
+  function(exercises,
            exam_number,
            random,
            reorder,
            delivery) {
     if (reorder) {
-      nq <- nrow(questions)
+      nq <- nrow(exercises)
       r <- sample(1:nq, nq, replace = FALSE)
-      questions <- questions[r, ]
+      exercises <- exercises[r, ]
     }
     txt <- ''
-    for (i in 1:nrow(questions)) {
-      question <-
-        interpret_a_question(questions[i,], exam_number, random, delivery)
-      if (questions$type[i] == 'p' & i > 1) {
+    for (i in 1:nrow(exercises)) {
+      exercise <-
+        interpret_an_exercise(exercises[i,], exam_number, random, delivery)
+      if (exercises$type[i] == 'p' & i > 1) {
         txt <- paste0(txt, '
 \\newpage
 ')
       }
       txt <- paste0(txt, '
 
-**', i, '.** ', question)
+**', i, '.** ', exercise)
     }
     txt
   }
 
 
-#' interpret questions
+#' interpret exercises
 #'
-#' @param questions A data frame, questions.
+#' @param exercises A data frame, exercises.
 #' @param exam_number An integer, exam sequence number
 #' @param random A boolean, is random generation.
-#' @param reorder A boolean, reorder questions.
+#' @param reorder A boolean, reorder exercises.
 #' @param delivery A boolean, is delivery version.
 #'
 #' @return A string vector.
 #' @keywords internal
-interpret_questions <-
-  function(questions,
+interpret_exercises <-
+  function(exercises,
            exam_number,
            random,
            reorder,
            delivery) {
-    nq <- nrow(questions)
+    nq <- nrow(exercises)
     if (reorder) {
       r <- sample(1:nq, nq, replace = FALSE)
     } else {
@@ -338,51 +338,51 @@ interpret_questions <-
     }
     vq <- NULL
     for (i in r) {
-      question <-
-        interpret_a_question(questions[i, ], exam_number, random, delivery)
-      vq <- c(vq, question)
+      exercise <-
+        interpret_an_exercise(exercises[i, ], exam_number, random, delivery)
+      vq <- c(vq, exercise)
     }
     vq
   }
 
 
-#' interpret a question.
+#' interpret a exercise.
 #'
-#' @param question A data frame, question.
+#' @param exercise A data frame, exercise.
 #' @param exam_number An integer, exam sequence number
 #' @param random A boolean, is random generation.
 #' @param delivery A boolean, is delivery version.
 #'
 #' @return A string.
 #' @keywords internal
-interpret_a_question <-
-  function(question, exam_number, random, delivery) {
-    names <- names(question)
+interpret_an_exercise <-
+  function(exercise, exam_number, random, delivery) {
+    names <- names(exercise)
     base <- c("type", "question", "image", "image_alt", "answer")
     values <- setdiff(names, base)
-    others <- question[, values]
+    others <- exercise[, values]
     others <- others[, others != '']
-    txt <- question[, "question"]
+    txt <- exercise[, "question"]
 
     avoid <- integer(0)
-    if (question[, "image"] != '') {
+    if (exercise[, "image"] != '') {
       txt <- paste0(txt,
                     '
 
 ![',
-                    question[, "image_alt"],
+                    exercise[, "image_alt"],
                     '](',
-                    question[, "image"],
+                    exercise[, "image"],
                     ')
 ')
       r <-
-        unlist(stringr::str_extract_all(question[, "image"], "\\[\\[\\d\\]\\]"))
+        unlist(stringr::str_extract_all(exercise[, "image"], "\\[\\[\\d\\]\\]"))
       avoid <- as.integer(stringr::str_extract(r, "\\d"))
       avoid <- avoid[!is.na(avoid)]
     }
     txt <- reorder_items(txt)
 
-    answer <- question[, "answer"]
+    answer <- exercise[, "answer"]
     answer <- string_to_vector(answer)
     n_answers <- length(answer)
     if (n_answers > 1) {

@@ -21,8 +21,13 @@ The goal of `rexer` is to facilitate the generation of exams incorporating rando
 
 Each exercise is a row in a table. It consists of a statement that may have gaps, as many as deemed necessary, and vectors of strings to fill each of those gaps by selecting one from them. It may also include a figure whose name or description can also have gaps. Additionally, we can indicate the solution either in the form of instructions or through a vector of strings associated with the vectors of the gaps. Incorporating randomness within each exercise enhances exam security, ensuring that each student is compelled to focus on their own test rather than attempting to obtain answers from their peers.
 
-
 Documents can be generated in PDF, HTML, or Word format. It produces a version for conducting the assessment and a version that facilitates the correction, linked through a code.
+
+The rest of this document is structured as follows: First, the general process of defining questions is presented. Next, we show the types of questions considered and how to define them. Finally, the document ends with conclusions.
+
+# Question definition process
+
+
 
 
 ```{r setup}

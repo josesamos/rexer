@@ -18,8 +18,8 @@ params:
   exam_number: 1
   exam_number_str: "01"
   examined: "01"
-  questions: ""
-  all_questions: ""
+  exercises: ""
+  all_exercises: ""
 ---
 
 ```{r setup, include=FALSE}
@@ -39,15 +39,15 @@ Example of an exam template to be used with the `rexer` package. In this section
 
 If defined, the variable `params$examined` will contain the student's name. If not defined, it will contain the number of the generated exam instance (it will match the file name). This is its current value: `r params$examined`
 
-This template presents the questions one by one. The package only includes the statement of each question in the `params$questions` vector variable. To present them, we have to loop through it or include them one by one to adapt their presentation, possibly including more indications.
+This template presents the exercises one by one. The package only includes the statement of each question in the `params$exercises` vector variable. To present them, we have to loop through it or include them one by one to adapt their presentation, possibly including more indications.
 
-Number of questions: `r length(params$questions)`
+Number of exercises: `r length(params$exercises)`
 
 ---
 
 ```{r, echo=FALSE, results='asis'}
-for (i in seq_along(params$questions)) {
-  q <- paste0('**1.** ', params$questions[i])
+for (i in seq_along(params$exercises)) {
+  q <- paste0('**1.** ', params$exercises[i])
   cat(q)
 }
 ```

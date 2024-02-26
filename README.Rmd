@@ -44,21 +44,21 @@ devtools::install_github("josesamos/rexer")
 
 ## Example
 
-This is a basic example that shows how to generate 10 exam instances for the students to take and another 10 for correction, using questions included in a CSV file:
+This is a basic example that shows how to generate 10 exam instances for the students to take and another 10 for correction, using exercises included in a CSV file:
 
 ```{r example, eval=FALSE}
 library(rexer)
 
 rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-questions <- system.file("extdata/questions.csv", package = "rexer")
+exercises <- system.file("extdata/exercises.csv", package = "rexer")
 ex <- exam(
   rmd = rmd,
   examinees = NULL,
   instances_num = 10,
   random = TRUE,
-  reorder_questions = TRUE
+  reorder_exercises = TRUE
 ) |>
-  define_questions_from_csv(questions) |>
+  define_exercises_from_csv(exercises) |>
   generate_document(out_dir = tempdir(), new_pages = 'all') |>
   generate_correction_document(out_dir = tempdir(), new_pages = 'none')
 ```
@@ -73,7 +73,7 @@ Each exam is generated from an *Rmd* format template, which includes selected ex
 "p","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]] and for the country represented in the figure below?","xxxxx/[[2]]","Country outline.","LTU and GRC<|>URY and GBR<|>MEX and JPN<|>GAB and BRA","Lithuania<|>Uruguay<|>Mexico<|>Gabon","greece.png<|>united_kingdom.png<|>japan.png<|>brazil.png",
 ````
 
-The gaps in the questions are numbered (e.g., "[[1]]") and are filled with the associated elements defined in vector form. It is also possible to define elements that appear in random order (e.g., "{{[[1]], [[2]], and [[3]]}}"), so that in the instantiated version, the gaps can appear in any order. In each question, there can be as many gaps as desired, with the number of options we want in each gap.
+The gaps in the exercises are numbered (e.g., "[[1]]") and are filled with the associated elements defined in vector form. It is also possible to define elements that appear in random order (e.g., "{{[[1]], [[2]], and [[3]]}}"), so that in the instantiated version, the gaps can appear in any order. In each exercise, there can be as many gaps as desired, with the number of options we want in each gap.
 
 Figures can be included in the exercises by simply indicating the file name and the caption text. Figures included in each exercise can also be selected like any other element for which a gap and a vector of options have been defined.
 

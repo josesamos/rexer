@@ -22,10 +22,10 @@ s <- vector_to_string(c('Addition', '+'))
 }
 \seealso{
 Other support functions: 
-\code{\link{create_question_csv}()},
-\code{\link{create_question_data_frame}()},
-\code{\link{create_question_excel}()},
-\code{\link{read_question_csv}()},
-\code{\link{read_question_excel}()}
+\code{\link{create_exercise_csv}()},
+\code{\link{create_exercise_data_frame}()},
+\code{\link{create_exercise_excel}()},
+\code{\link{read_exercise_csv}()},
+\code{\link{read_exercise_excel}()}
 }
 \concept{support functions}
