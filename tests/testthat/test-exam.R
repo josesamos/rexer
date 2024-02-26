@@ -70,7 +70,7 @@ test_that("exam", {
       exercises = structure(
         list(
           type = character(0),
-          question = character(0),
+          statement = character(0),
           image = character(0),
           image_alt = character(0),
           answer = character(0),

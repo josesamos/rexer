@@ -39,7 +39,7 @@ Example of an exam template to be used with the `rexer` package. In this section
 
 If defined, the variable `params$examined` will contain the student's name. If not defined, it will contain the number of the generated exam instance (it will match the file name). This is its current value: `r params$examined`
 
-This template presents the exercises one by one. The package only includes the statement of each question in the `params$exercises` vector variable. To present them, we have to loop through it or include them one by one to adapt their presentation, possibly including more indications.
+This template presents the exercises one by one. The package only includes the statement of each exercise in the `params$exercises` vector variable. To present them, we have to loop through it or include them one by one to adapt their presentation, possibly including more indications.
 
 Number of exercises: `r length(params$exercises)`
 

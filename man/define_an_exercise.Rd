@@ -5,12 +5,12 @@
 \alias{define_an_exercise.exam}
 \title{Define an exercise}
 \usage{
-define_an_exercise(ex, type, question, image, image_alt, answer, ...)
+define_an_exercise(ex, type, statement, image, image_alt, answer, ...)
 
 \method{define_an_exercise}{exam}(
   ex,
   type = "",
-  question = "",
+  statement = "",
   image = "",
   image_alt = "",
   answer = "",
@@ -22,7 +22,7 @@ define_an_exercise(ex, type, question, image, image_alt, answer, ...)
 
 \item{type}{A character, 'p' indicates whether the exercise starts on a new page.}
 
-\item{question}{A string, statement of the exercise.}
+\item{statement}{A string, statement of the exercise.}
 
 \item{image}{A string, optional, image file to include in the exercise.}
 
@@ -63,7 +63,7 @@ ex <- exam(
 ) |>
   define_an_exercise(
     type = 'p',
-    question = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
+    statement = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
     the country represented in the figure below?',
     image = paste0(system.file("extdata/figures", package = "rexer"), "/", '[[1]]'),
     image_alt = 'Country outline.',

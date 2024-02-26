@@ -40,7 +40,7 @@ vector_to_string <- function(vector) {
 create_exercise_data_frame <- function() {
   exercises <-  data.frame(
     type = character(),
-    question = character(),
+    statement = character(),
     image = character(),
     image_alt = character(),
     answer = character(),

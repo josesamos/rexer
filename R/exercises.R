@@ -15,7 +15,7 @@
 #'
 #' @param ex An `exam` object.
 #' @param type A character, 'p' indicates whether the exercise starts on a new page.
-#' @param question A string, statement of the exercise.
+#' @param statement A string, statement of the exercise.
 #' @param image A string, optional, image file to include in the exercise.
 #' @param image_alt A string, description of the image to include in the exercise.
 #' @param answer A string, correct answer to the exercise.
@@ -39,7 +39,7 @@
 #' ) |>
 #'   define_an_exercise(
 #'     type = 'p',
-#'     question = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
+#'     statement = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
 #'     the country represented in the figure below?',
 #'     image = paste0(system.file("extdata/figures", package = "rexer"), "/", '[[1]]'),
 #'     image_alt = 'Country outline.',
@@ -50,7 +50,7 @@
 #' @export
 define_an_exercise <- function(ex,
                               type,
-                              question,
+                              statement,
                               image,
                               image_alt,
                               answer,
@@ -62,7 +62,7 @@ define_an_exercise <- function(ex,
 #' @export
 define_an_exercise.exam <- function(ex,
                                    type = '',
-                                   question = '',
+                                   statement = '',
                                    image = '',
                                    image_alt = '',
                                    answer = '',
@@ -88,7 +88,7 @@ define_an_exercise.exam <- function(ex,
   n <- length(wrong)
   nq <- data.frame(
     type = type,
-    question = question,
+    statement = statement,
     image = image,
     image_alt = image_alt,
     answer = answer
@@ -176,13 +176,13 @@ define_exercises.exam <- function(ex, df) {
   }
   rest <-
     setdiff(attributes,
-            c("type", "question", "image", "image_alt", "answer"))
+            c("type", "statement", "image", "image_alt", "answer"))
   for (i in 1:nrow(df)) {
     text <- paste0(
       'define_an_exercise(ex, type = "',
       df[i, 'type'],
-      '", question = "',
-      df[i, 'question'],
+      '", statement = "',
+      df[i, 'statement'],
       '", image = "',
       df[i, 'image'],
       '", image_alt = "',

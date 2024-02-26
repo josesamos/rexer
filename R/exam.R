@@ -71,7 +71,7 @@ exam <-
 
     exercises <-  data.frame(
       type = character(),
-      question = character(),
+      statement = character(),
       image = character(),
       image_alt = character(),
       answer = character(),
@@ -358,11 +358,11 @@ interpret_exercises <-
 interpret_an_exercise <-
   function(exercise, exam_number, random, delivery) {
     names <- names(exercise)
-    base <- c("type", "question", "image", "image_alt", "answer")
+    base <- c("type", "statement", "image", "image_alt", "answer")
     values <- setdiff(names, base)
     others <- exercise[, values]
     others <- others[, others != '']
-    txt <- exercise[, "question"]
+    txt <- exercise[, "statement"]
 
     avoid <- integer(0)
     if (exercise[, "image"] != '') {

@@ -12,7 +12,7 @@ test_that("define_exercises_from", {
   ex1 <- define_an_exercise(
     ex,
     type = 'p',
-    question = 'What is the three-letter country code (ISO 3166-1 alpha-3) for for the country represented in the figure below?',
+    statement = 'What is the three-letter country code (ISO 3166-1 alpha-3) for for the country represented in the figure below?',
     image = paste0(system.file("extdata/figures", package = "rexer"), "/", '[[1]]'),
     image_alt = 'Country outline.',
     answer = 'ESP<|>CHL<|>NZL<|>ITA',
@@ -22,7 +22,7 @@ test_that("define_exercises_from", {
   ex2 <- define_an_exercise(
     ex,
     type = 'p',
-    question = 'What is the three-letter country code (ISO 3166-1 alpha-3) for for the country represented in the figure below?',
+    statement = 'What is the three-letter country code (ISO 3166-1 alpha-3) for for the country represented in the figure below?',
     image = paste0(system.file("extdata/figures", package = "rexer"), "/", '[[1]]'),
     image_alt = 'Country outline.',
     answer = 'ESP<|>CHL<|>NZL<|>ITA',
@@ -62,41 +62,41 @@ test_that("define_exercises_from", {
 
 
 
-  expect_equal(names(ex1$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex1$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                       "a_2", "a_3"))
 
   expect_equal(nrow(ex1$exercises), 1)
 
-  expect_equal(names(ex2$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex2$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                        "a_2", "a_3", "a_4", "a_5"))
 
 
-  expect_equal(names(ex3$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex3$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                        "a_2", "a_3", "a_4", "a_5"))
 
   expect_equal(nrow(ex3$exercises), 2)
 
-  expect_equal(names(ex4$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex4$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                        "a_2", "a_3"))
 
   expect_equal(nrow(ex4$exercises), 8)
 
-  expect_equal(names(ex5$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex5$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                        "a_2", "a_3", "a_4", "a_5"))
 
   expect_equal(nrow(ex5$exercises), 9)
 
-  expect_equal(names(ex6$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex6$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                        "a_2", "a_3"))
 
   expect_equal(nrow(ex6$exercises), 8)
 
-  expect_equal(names(ex7$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex7$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                        "a_2", "a_3"))
 
   expect_equal(nrow(ex7$exercises), 8)
 
-  expect_equal(names(ex71$exercises), c("type", "question", "image", "image_alt", "answer", "a_1",
+  expect_equal(names(ex71$exercises), c("type", "statement", "image", "image_alt", "answer", "a_1",
                                        "a_2", "a_3"))
 
   expect_equal(nrow(ex71$exercises), 8)
