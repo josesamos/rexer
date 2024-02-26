@@ -23,11 +23,25 @@ Each exercise is a row in a table. It consists of a statement that may have gaps
 
 Documents can be generated in PDF, HTML, or Word format. It produces a version for conducting the assessment and a version that facilitates the correction, linked through a code.
 
-The rest of this document is structured as follows: First, the general process of defining exercises is presented. Next, we show  . Finally, the document ends with conclusions.
+The rest of this document is structured as follows: First, the general process of defining exercises and exams is presented. Next, we show  . Finally, the document ends with conclusions.
 
-# Exercise definition process
+# Exercises and exams definition process
 
+To define an exam, we need an *Rmd* file with the exam template. From the template, we create an object `exam`. The communication between the object and the template is through parameters that the template must include, and whose values are set in the object and the associated definition methods.
+
+The creation of an `exam` object with one of the templates provided in the package and the default values of the parameters is shown below.
 
 ```{r setup}
 library(rexer)
+
+rmd <- system.file("extdata/template01.Rmd", package = "rexer")
+exercises <- system.file("extdata/exercises.csv", package = "rexer")
+ex <- exam(
+  rmd = rmd,
+  examinees = NULL,
+  instances_num = 1,
+  random = TRUE,
+  reorder_exercises = TRUE,
+  select_n_exercises = NULL
+)
 ```
