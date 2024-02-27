@@ -19,7 +19,9 @@ knitr::opts_chunk$set(
 
 The goal of `rexer` is to facilitate the generation of exams incorporating random elements to exercises. This applies to both the exercises featured in the exam and the components defined within each exercise, all of which can be randomized. It can be considered as a generalization of the *string exercises* found in the [`exams`](https://CRAN.R-project.org/package=exams) package.
 
-Each exercise is a row in a table. It consists of a statement that may have gaps, as many as deemed necessary, and vectors of strings to fill each of those gaps by selecting one from them. It may also include a figure whose name or description can also have gaps. Additionally, we can indicate the solution either in the form of instructions or through a vector of strings associated with the vectors of the gaps. Incorporating randomness within each exercise enhances exam security, ensuring that each student is compelled to focus on their own test rather than attempting to obtain answers from their peers.
+Each exercise is a row in a table. It consists of a statement that may have gaps, as many as deemed necessary, and vectors of strings to fill each of those gaps by selecting one from them. It may also include a figure whose name or description can also have gaps. Additionally, we can indicate the solution either in the form of instructions or through a vector of strings associated with the vectors of the gaps. 
+
+Incorporating randomness within each exercise enhances exam security, ensuring that each student is compelled to focus on their own test rather than attempting to obtain answers from their peers.
 
 Documents can be generated in PDF, HTML, or Word format. It produces a version for conducting the assessment and a version that facilitates the correction, linked through a code.
 
@@ -27,21 +29,73 @@ The rest of this document is structured as follows: First, the general process o
 
 # Exercises and exams definition process
 
-To define an exam, we need an *Rmd* file with the exam template. From the template, we create an object `exam`. The communication between the object and the template is through parameters that the template must include, and whose values are set in the object and the associated definition methods.
+To define an exam, an *Rmd* file containing the exam template is required. Using this template, we instantiate an `exam` object. Communication between the object and the template occurs through parameters that must be included in the template. The values for these parameters are set within the object using associated definition methods.
 
-The creation of an `exam` object with one of the templates provided in the package and the default values of the parameters is shown below.
+## Object creation
+
+The process of creating an `exam` object using one of the templates provided in the package is demonstrated below.
 
 ```{r setup}
 library(rexer)
 
 rmd <- system.file("extdata/template01.Rmd", package = "rexer")
-exercises <- system.file("extdata/exercises.csv", package = "rexer")
+
 ex <- exam(
   rmd = rmd,
-  examinees = NULL,
-  instances_num = 1,
-  random = TRUE,
+  instances_num = 30,
+  random = FALSE,
   reorder_exercises = TRUE,
-  select_n_exercises = NULL
+  select_n_exercises = 5
 )
 ```
+
+From the template, we generate multiple instances of the exam. We can specify the instances to generate in two ways: by indicating a vector of examinee names (using the `examinees` parameter) or by specifying the number of instances to generate (using the `instances_num` parameter). If both are indicated, the examinee names take precedence. In the example, it is stated that we want to generate 30 instances of the exam.
+
+We can generate the instances either randomly or sequentially, depending on the instance number we generate. This is controlled by the `random` parameter. The example indicates that generation is to be performed based on the generated instance number.
+
+Additionally, in each test, we can include the exercises in the same order as they are defined or in random order. This is indicated by the `reorder_exercises` parameter.
+
+Finally, using the `select_n_exercises` parameter, we can specify the number of exercises to include in each test. From all available exercises, the quantity specified in this parameter will be randomly selected. By default, all defined exercises are included.
+
+In this example, from the exercises provided for the exam, 5 will be selected and randomly rearranged.
+
+## Exercise definition
+
+We can define the exercises one by one through the function `define_an_exercise()`, or alternatively, in a bulk manner using the functions `define_exercises()` (from a data frame), `define_exercises_from_csv()`, and `define_exercises_from_excel()`. These definition functions can be conveniently combined.
+
+In the following example, we define an exercise whose random component is the presented image. Since the image is included in this package, we need to retrieve its folder using the `system.file()` function. If we have the images in a local folder, it is sufficient to specify its name.
+
+```{r}
+ex <- ex |>
+  define_an_exercise(
+    type = 'p',
+    statement = 'What is the three-letter country code (ISO 3166-1 alpha-3) for
+    the country represented in the figure below?',
+    image = paste0(system.file('extdata/figures', package = 'rexer'), '/', '[[1]]'),
+    image_alt = 'Country outline.',
+    answer = c('ESP', 'CHL', 'NZL', 'ITA'),
+    a_1 = c('spain.png', 'chile.png', 'new_zealand.png', 'italy.png')
+  )
+```
+
+The random component of the example is defined by the placeholder identified by "[[1]]." We can define as many random components as necessary in the `statement`, `image`, and `image_alt` fields by simply incrementing the number in the placeholder mark. 
+
+For each random component, we must specify the options to consider using additional parameters, which do not necessarily need names but can be indicated to prevent errors. In this case, in parameter `a_1`, we specify a vector of file names for images available in the package. 
+
+Through the 'answer' parameter, we can include information to obtain the correct response, or, as in this case, a vector whose options correspond one-to-one with the options of the defined random component, so that the indicated response will be associated with the selected option of the random component.
+
+Finally, by using the first parameter, `type`, and assigning it the value "p", we indicate whether we consider that the exercise should start on a new page. At the time of exam generation, we will be able to change this option.
+
+
+```{r}
+exercises <- system.file("extdata/exercises.csv", package = "rexer")
+
+```
+
+
+
+# Template definition
+
+
+
+# Generation of the exam to be conducted or to be graded

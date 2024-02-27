@@ -43,8 +43,8 @@
 #'     the country represented in the figure below?',
 #'     image = paste0(system.file("extdata/figures", package = "rexer"), "/", '[[1]]'),
 #'     image_alt = 'Country outline.',
-#'     answer = 'ESP<|>CHL<|>NZL<|>ITA',
-#'     "spain.png<|>chile.png<|>new_zealand.png<|>italy.png"
+#'     answer = c('ESP', 'CHL', 'NZL', 'ITA'),
+#'     c('spain.png', 'chile.png', 'new_zealand.png', 'italy.png')
 #'   )
 #'
 #' @export

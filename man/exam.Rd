@@ -42,13 +42,13 @@ A test is based on an Rmd template that has predefined parameters whose values
 are filled in using the functions of this object. In the `rmd` parameter, we
 specify the template file.
 
-From the template, we generate multiple instances of the test. We can specify
+From the template, we generate multiple instances of the exam. We can specify
 the instances to generate in two ways: by indicating a vector of examinee names
 (using the `examinees` parameter) or by specifying the number of instances to
 generate (using the `instances_num` parameter). If both are indicated, the
 examinee names take precedence.
 
-We can generate the tests either randomly or sequentially, depending on the
+We can generate the instances either randomly or sequentially, depending on the
 instance number we generate. This is controlled by the `random` parameter.
 
 Additionally, in each test, we can include the exercises in the same order as
