@@ -23,6 +23,104 @@ vector_to_string <- function(vector) {
   res
 }
 
+#' Title
+#'
+#' @param df
+#'
+#' @return
+#' @export
+get_pending_answers <- function(df) {
+  attributes <- names(df)
+  rest <-
+    setdiff(attributes,
+            c("type", "statement", "image", "image_alt", "answer"))
+  for (i in seq_along(df)) {
+    l <- list()
+    if (df$answer[i] == '?') {
+       for (j in rest) {
+        if (df[i, j][[1]] != "") {
+          l[[j]] <- string_to_vector(df[i, j][[1]])
+        }
+      }
+    }
+    if (length(l) > 0) {
+      cycle <- max(unlist(lapply(l, length), use.names = FALSE))
+      val <- NULL
+      for (k in 1:cycle) {
+        for (j in seq_along(names(l))) {
+          m <- length(l[[j]])
+          n <- k %% m
+          if (n == 0) {
+            n <- m
+          }
+          if (j > 1) {
+            val <- paste0(val, ', ')
+          }
+          val <- paste0(val, j, '.', l[[j]][n])
+        }
+        if (k < cycle) {
+          val <- paste0(val, '<|>')
+        }
+      }
+      df$answer[i] <- val
+    }
+  }
+  df
+}
+
+#' Write an exercise csv file
+#'
+#' Writes a csv file of exercises and returns a data frame.
+#'
+#' @param df A data frame.
+#' @param file A string, name of a text file.
+#' @param sep Column separator character.
+#'
+#' @return A data frame.
+#'
+#' @family support functions
+#'
+#' @examples
+#'
+#' file <- system.file("extdata/exercises.csv", package = "rexer")
+#' df <- read_exercise_csv(file)
+#'
+#' @export
+write_exercise_csv <- function(df, file, sep = ',') {
+
+}
+
+
+#' Write an exercise Excel file
+#'
+#' Writes an Excel file of exercises and returns a data frame.
+#'
+#' In addition to the file, we can indicate the sheet by its name or index. If we
+#' do not indicate anything, it considers the first sheet.
+#'
+#' @param df A data frame.
+#' @param file A string, name of a text file.
+#' @param sheet_index A number, sheet index in the workbook.
+#' @param sheet_name A string, sheet name.
+#'
+#' @return A data frame.
+#'
+#' @family support functions
+#'
+#' @examples
+#'
+#' file <- system.file("extdata/exercises.csv", package = "rexer")
+#' df <- read_exercise_csv(file)
+#'
+#' @export
+write_exercise_excel <- function(df,
+                                 file,
+                                sheet_index = NULL,
+                                sheet_name = NULL) {
+  df
+}
+
+
 
 #' Create an exercise data frame
 #'
