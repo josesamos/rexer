@@ -86,7 +86,7 @@ exam <-
         rmd = rmd,
         a_n = 3,
         exercises = exercises,
-        examined = examinees,
+        examinees = examinees,
         instances = instances,
         random = random,
         reorder_exercises = reorder_exercises,
@@ -172,7 +172,7 @@ generate_document.exam <- function(ex,
       sel_exercises$type <- ""
     }
   }
-  for (examined in ex$examined) {
+  for (examinee in ex$examinees) {
     if (select_n_exercises < n) {
       i <- sample.int(n, select_n_exercises)
       if (!ex$reorder_exercises) {
@@ -196,12 +196,12 @@ generate_document.exam <- function(ex,
     rmarkdown::render(
       ex$rmd,
       output_format,
-      output_file = paste0(out_dir, snakecase::to_snake_case(examined)),
+      output_file = paste0(out_dir, snakecase::to_snake_case(examinee)),
       encoding = encoding,
       params = list(
         exam_number = exam_number,
         exam_number_str = ex$instances[exam_number],
-        examined = examined,
+        examinee = examinee,
         exercises = exercises,
         all_exercises = all_exercises
       )

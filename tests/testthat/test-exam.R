@@ -81,7 +81,7 @@ test_that("exam", {
         class = "data.frame",
         row.names = integer(0)
       ),
-      examined = "1",
+      examinees = "1",
       instances = "1",
       random = TRUE,
       reorder_exercises = TRUE,

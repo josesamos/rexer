@@ -17,7 +17,7 @@ fontsize: 11pt
 params:
   exam_number: 1
   exam_number_str: "01"
-  examined: "01"
+  examinee: "01"
   exercises: ""
   all_exercises: ""
 ---
@@ -37,7 +37,7 @@ cat("<style>.figcaption{text-align:center;}</style>")
 
 Example of an exam template to be used with the `rexer` package. In this section we can provide indications about the development of the exam.
 
-If defined, the variable `params$examined` will contain the student's name. If not defined, it will contain the number of the generated exam instance (it will match the file name). This is its current value: `r params$examined`
+If defined, the variable `params$examinee` will contain the student's name. If not defined, it will contain the number of the generated exam instance (it will match the file name). This is its current value: `r params$examinee`
 
 This template presents the exercises one by one. The package only includes the statement of each exercise in the `params$exercises` vector variable. To present them, we have to loop through it or include them one by one to adapt their presentation, possibly including more indications.
 
