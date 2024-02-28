@@ -26,6 +26,8 @@ Other support functions:
 \code{\link{create_exercise_data_frame}()},
 \code{\link{create_exercise_excel}()},
 \code{\link{read_exercise_csv}()},
-\code{\link{read_exercise_excel}()}
+\code{\link{read_exercise_excel}()},
+\code{\link{set_pending_answers}()},
+\code{\link{write_exercise_csv}()}
 }
 \concept{support functions}

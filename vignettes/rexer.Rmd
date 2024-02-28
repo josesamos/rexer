@@ -21,11 +21,11 @@ The goal of `rexer` is to facilitate the generation of exams incorporating rando
 
 Incorporating randomness within each exercise enhances exam security, ensuring that each student is compelled to focus on their own test rather than attempting to obtain answers from their peers.
 
-Each exercise is a row in a table. It consists of a statement that may have gaps, as many as deemed necessary, and vectors of strings to fill each of those gaps by selecting one from them. It may also include a figure whose name or description can also have gaps. Additionally, we can indicate the solution either in the form of instructions or through a vector of strings associated with the vectors of the gaps. 
+Each exercise is a row in a table. It consists of a statement that may have gaps, as many as deemed necessary, and vectors of strings to fill each of those gaps by selecting one from them. It may also include a figure whose name or description can also have gaps. Additionally, we can indicate the answer either in the form of instructions or through a vector of strings associated with the vectors of the gaps. 
 
 Documents can be generated in PDF, HTML, or Word format. It produces a version for conducting the assessment and a version that facilitates the correction, linked through a code.
 
-The rest of this document is structured as follows: First, the general process of defining exercises and exams is presented. Next, we show  . Finally, the document ends with conclusions.
+The rest of this document is structured as follows: First, the general process of defining exercises and exams is presented. Next, we show the generation of exam instances, both to provide to the examinees and to support the correction. Finally, the document concludes with conclusions.
 
 # Exercises and exams definition process
 
@@ -78,7 +78,7 @@ ex <- ex |>
   )
 ```
 
-The random component of the example is defined by the placeholder identified by "[[1]]." We can define as many random components as necessary in the `statement`, `image`, and `image_alt` fields by simply incrementing the number in the placeholder mark. 
+The random component of the example is defined by the gap identified by "[[1]]." We can define as many random components as necessary in the `statement`, `image`, and `image_alt` fields by simply incrementing the number in the gap mark. 
 
 For each random component, we must specify the options to consider using additional parameters, which do not necessarily need names but can be indicated to prevent errors. In this case, in parameter `a_1`, we specify a vector of file names for images available in the package. 
 
@@ -100,29 +100,99 @@ The content of the CSV file is displayed below.
 ````{verbatim, lang = "csv"}
 "type","statement","image","image_alt","answer","a_1","a_2","a_3"
 "","What is the three-letter country code (ISO 3166-1 alpha-3) for [[1]]?","","","LTU<|>URY<|>MEX<|>GAB","Lithuania<|>Uruguay<|>Mexico<|>Gabon","",""
+"","What is the three-letter country code (ISO 3166-1 alpha-3) for [[1]]?","","","?","Lithuania<|>Uruguay<|>Mexico<|>Gabon","",""
 "","What are the three-letter country code (ISO 3166-1 alpha-3) for [[1]] and [[2]]?","","","LTU and DMA<|>URY and MLI<|>MEX and BFA<|>GAB and BDI","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi",""
 "","What are the three-letter country code (ISO 3166-1 alpha-3) for {{[[1]], [[2]] and [[3]]}}?","","","1.LTU, 2.DMA, 3.VCT<|>1.URY, 2.MLI, 3.PRY<|>1.MEX, 2.BFA, 3.BLZ<|>1.GAB, 2.BDI, 3.KGZ","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for {{[[1]], [[2]] and [[3]]}}?","","","?","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso<|>Burundi","St. Vincent & Grenadines<|>Paraguay<|>Belize<|>Kyrgyzstan"
+"","What are the three-letter country code (ISO 3166-1 alpha-3) for {{[[1]], [[2]] and [[3]]}}?","","","?","Lithuania<|>Uruguay<|>Mexico<|>Gabon","Dominica<|>Mali<|>Burkina Faso","St. Vincent & Grenadines<|>Paraguay"
 ````
-The table containing all the exercises defined so far is also shown below.
 
-```{r, results = "asis", echo=FALSE}
-pander::pandoc.table(ex$exercises, split.table = Inf)
+The table containing these exercises is shown below.
+
+```{r, results = "asis"}
+df <- read_exercise_csv(example)
+pander::pandoc.table(df, split.table = Inf)
 ```
 
 Each exercise is represented by a row in the table. To depict the options for filling in the gaps, we employ a vector of options, which, to be stored in a single field, is represented as a string using a separator for the vector elements: "<|>".
 
 If we define the exercises through a spreadsheet, we will need to manually insert this separator between the different options. If a data frame is used, we can utilize function `vector_to_string()` as a support, which, given a vector, transforms it into a string by inserting these separators between its components.
 
-If we observe the last defined exercise, we can see that it contains three gaps, and the options to consider for each of them have been defined. Regarding the solution, it is formed by the corresponding options for each of the gaps in order: the first option for each of the gaps, the second for each of the gaps, and so on. To make it easier to define the solution, it is recommended that all gaps have the same number of options (repeating some if necessary), but this is not essential. When multiple options appear in the solution, to obtain the exercise, we take the option from the solution, and based on its order number, we obtain the options for the gaps in the exercise.
+As mentioned earlier, the random components of the examples are defined by the gaps identified by "[[n]]" where n increases within each exercise. If we have multiple gaps in the same exercise, we can specify that they be randomly reordered by including them in the markers "{{}}," as seen in various examples in the table. If we use this element, the answer will remain the same, but the order of appearance of the corresponding options may change. The sole purpose of this element is to make it challenging for the examinee to identify identical exercises between their exam and that of another person.
 
-The package provides functions for creating a data frame (`create_exercise_data_frame()`), as well as empty CSV and Excel files (`create_exercise_csv()` and `create_exercise_excel()`) to which exercises can be added either programmatically or by directly editing them. It also includes other functions to read these structures into a data frame and to be able to modify them later if deemed necessary (`read_exercise_csv()` and `read_exercise_excel()`).
+The package provides functions for creating a data frame (`create_exercise_data_frame()`), as well as empty CSV and Excel files (`create_exercise_csv()` and `create_exercise_excel()`) to which exercises can be added either programmatically or by directly editing them. It also includes other functions to read these structures into a data frame and to be able to modify them later if deemed necessary (`read_exercise_csv()` and `read_exercise_excel()`), and also to save the exercises in CSV format (`write_exercise_csv()`).
 
+### Definition of answers in exercises
 
-FUNCIÓN PARA OBTENER LA SOLUCIÓN AUTOMÁTICAMENTE: A PARTIR DE LAS OPCIONES DE LOS HUECOS, OBTIENE LA COMBINACIÓN DE ELLAS EN ORDEN Y LES PONE EL ÍNDICE, COMO APARECE EN EL ÚLTIMO EJERCICIO.
+If we look at the first, second, fourth and fifth exercises in the table, we can see that they contain  gaps, and the options to consider for each of them have been defined. Regarding the answers, they are formed by the corresponding options for each of the gaps in order: the first option for each of the gaps, the second for each of the gaps, and so on. In other words, if the answer is a vector, there is a correspondence between it and the other vectors to fill the gaps, and only these vectors will be used in the order indicated in the answer (first element of all gaps, second element of all gaps, etc.). However, if the answer is a single element (it can be empty), any combination of the available options to fill the gaps can be considered randomly.
 
-# Template definition
+To make it easier to define the answers, we can use the `set_pending_answers()` function. If we have indicated the '?' character in the answer column in the data frame, it generates the answer considering the options of the gaps in the order described in the paragraph above. Thus, we have to adapt the answer for each combination of the specified options.
 
+```{r}
+df <- set_pending_answers(df)
+```
 
+The table below shows the result obtained from the previous table after applying this function.
+
+```{r, results = "asis"}
+pander::pandoc.table(df, split.table = Inf)
+```
+
+In the last row of the table, we can observe that, since the gaps have a different number of options, it considers the one with the highest number of options and rotates through the others to generate the answer by combining them.
+
+We can store the result in a CSV file (`write_exercise_csv()`) to facilitate the elaboration of the answers, given the options for each one.
+
+## Template definition
+
+An *Rmd* file containing the exam template is required to instantiate an `exam` object. Communication between the object and the template occurs through parameters that must be included in the template. The values for these parameters are set within the object using associated definition methods.
+
+Below are the parameters and their default values specified in the templates included in the package.
+
+````{verbatim, lang = "Rmd"}
+  params:
+  exam_number: 1
+  exam_number_str: "01"
+  examinee: "01"
+  exercises: ""
+  all_exercises: ""
+---
+````
+
+The parameters `exam_number` and `exam_number_str` take the value of the generated exam instance number. Parameter `examinee` contains the examinee's name, if specified, or the same value as parameter `exam_number_str` if the vector of examinees has not been indicated. It is necessary to include the value of some of these parameters in the exam to establish a connection between the exam given to the examinee and the version where answers or instructions for correction are included.
+
+Parameter `exercises` contains a vector with the statements of the generated exercises, allowing us to iterate through it and present each exercise according to our convenience, as shown in the example below.
+
+```{verbatim, lang = "R"}
+``{r, echo=FALSE, results='asis'}
+for (i in seq_along(params$exercises)) {
+  q <- paste0('**1.** ', params$exercises[i])
+  cat(q)
+}
+``
+```
+
+Finally, parameter `all_exercises` contains all the statements of the exercises to be presented together; it is an alternative to presenting the exercises using parameter `exercises`. Its usage is demonstrated in the following example.
+
+```{verbatim, lang = "R"}
+`r params$all_exercises`
+```
+
+In the templates `template01.Rmd` and `template01.Rmd` included in the package, we can see examples of parameter usage.
 
 # Generation of the exam instances
 
+Once we have defined and configured the exam and the exercises it may contain, we can generate instances to distribute to the students and correction support instances using the `generate_document()` and `generate_correction_document()` functions.
+
+```{r, eval=FALSE}
+ex <- ex |>
+  generate_document(out_dir = tempdir(), new_pages = 'all') |>
+  generate_correction_document(out_dir = tempdir(), new_pages = 'none')
+
+```
+
+In both functions, we can specify the folder where we will generate the instances (parameter `out_dir`) and if we want to change the page layout indicated in each exercise (parameter `new_pages`): we can specify that each exercise is placed on a new page (value 'all') or that the page changes only when it is complete (value 'none').
+
+The result of the first generated exam in both versions is included in the package, in the files X and Y.
+
+
+# Conclusions

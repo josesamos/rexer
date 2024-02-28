@@ -23,21 +23,35 @@ vector_to_string <- function(vector) {
   res
 }
 
-#' Title
+#' Set pending answers
 #'
-#' @param df
+#' The answers we want to process are indicated by the character "?". Fill in the
+#' specified answers by generating combinations of the available options to fill
+#' the gaps in order, from value 1 to the maximum number of options available: the
+#' first option for each of the gaps, the second for each of the gaps, and so on.
 #'
-#' @return
+#' @param df A data frame of exercises.
+#'
+#' @return A data frame.
+#'
+#' @family support functions
+#'
+#' @examples
+#'
+#' file <- system.file("extdata/example.csv", package = "rexer")
+#' df <- read_exercise_csv(file)
+#' df <- set_pending_answers(df)
+#'
 #' @export
-get_pending_answers <- function(df) {
+set_pending_answers <- function(df) {
   attributes <- names(df)
   rest <-
     setdiff(attributes,
             c("type", "statement", "image", "image_alt", "answer"))
-  for (i in seq_along(df)) {
+  for (i in 1:nrow(df)) {
     l <- list()
     if (df$answer[i] == '?') {
-       for (j in rest) {
+      for (j in rest) {
         if (df[i, j][[1]] != "") {
           l[[j]] <- string_to_vector(df[i, j][[1]])
         }
@@ -70,56 +84,33 @@ get_pending_answers <- function(df) {
 
 #' Write an exercise csv file
 #'
-#' Writes a csv file of exercises and returns a data frame.
+#' Writes an exercise data frame in a csv file of exercises.
 #'
 #' @param df A data frame.
 #' @param file A string, name of a text file.
 #' @param sep Column separator character.
 #'
-#' @return A data frame.
+#' @return A string.
 #'
 #' @family support functions
 #'
 #' @examples
 #'
-#' file <- system.file("extdata/exercises.csv", package = "rexer")
+#' file <- system.file("extdata/example.csv", package = "rexer")
 #' df <- read_exercise_csv(file)
+#' df <- set_pending_answers(df)
+#'
+#' write_exercise_csv(df, file = tempfile(fileext = '.csv'))
 #'
 #' @export
 write_exercise_csv <- function(df, file, sep = ',') {
-
+  if (sep == ',') {
+    utils::write.csv(df, file = file, row.names = FALSE)
+  } else {
+    utils::write.csv2(df, file = file, row.names = FALSE)
+  }
+  invisible(file)
 }
-
-
-#' Write an exercise Excel file
-#'
-#' Writes an Excel file of exercises and returns a data frame.
-#'
-#' In addition to the file, we can indicate the sheet by its name or index. If we
-#' do not indicate anything, it considers the first sheet.
-#'
-#' @param df A data frame.
-#' @param file A string, name of a text file.
-#' @param sheet_index A number, sheet index in the workbook.
-#' @param sheet_name A string, sheet name.
-#'
-#' @return A data frame.
-#'
-#' @family support functions
-#'
-#' @examples
-#'
-#' file <- system.file("extdata/exercises.csv", package = "rexer")
-#' df <- read_exercise_csv(file)
-#'
-#' @export
-write_exercise_excel <- function(df,
-                                 file,
-                                sheet_index = NULL,
-                                sheet_name = NULL) {
-  df
-}
-
 
 
 #' Create an exercise data frame

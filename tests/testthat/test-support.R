@@ -22,6 +22,14 @@ test_that("support", {
                             col_types = "text",
                             trim_ws = TRUE)
 
+  file <- system.file("extdata/example.csv", package = "rexer")
+  df <- read_exercise_csv(file)
+  df2 <- set_pending_answers(df)
+
+  write_exercise_csv(df2, file = tempfile(fileext = '.csv'))
+
+  write_exercise_csv(df2, file = tempfile(fileext = '.csv'), sep = ';')
+
 
   expect_equal(vector_to_string(c('a', 'b')), "a<|>b")
 
@@ -82,5 +90,13 @@ test_that("support", {
               "tbl", "data.frame"),
     row.names = integer(0)
   ))
+
+  expect_equal(df$answer[df$answer == '?'], c("?", "?", "?"))
+
+  expect_equal(df2$answer[2], "1.Lithuania<|>1.Uruguay<|>1.Mexico<|>1.Gabon")
+
+  expect_equal(df2$answer[5], "1.Lithuania, 2.Dominica, 3.St. Vincent & Grenadines<|>1.Uruguay, 2.Mali, 3.Paraguay<|>1.Mexico, 2.Burkina Faso, 3.Belize<|>1.Gabon, 2.Burundi, 3.Kyrgyzstan")
+
+  expect_equal(df2$answer[6], "1.Lithuania, 2.Dominica, 3.St. Vincent & Grenadines<|>1.Uruguay, 2.Mali, 3.Paraguay<|>1.Mexico, 2.Burkina Faso, 3.St. Vincent & Grenadines<|>1.Gabon, 2.Dominica, 3.Paraguay")
 
 })

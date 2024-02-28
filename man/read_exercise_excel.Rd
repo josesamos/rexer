@@ -35,6 +35,8 @@ Other support functions:
 \code{\link{create_exercise_data_frame}()},
 \code{\link{create_exercise_excel}()},
 \code{\link{read_exercise_csv}()},
-\code{\link{vector_to_string}()}
+\code{\link{set_pending_answers}()},
+\code{\link{vector_to_string}()},
+\code{\link{write_exercise_csv}()}
 }
 \concept{support functions}
