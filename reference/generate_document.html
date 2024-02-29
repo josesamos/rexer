@@ -42,7 +42,13 @@ parameter `new_pages` with the values 'all', 'none', or NULL)."><meta property="
       </ul><form class="form-inline my-2 my-lg-0" role="search">
         <input type="search" class="form-control me-sm-2" aria-label="Toggle navigation" name="search-input" data-search-index="../search.json" id="search-input" placeholder="Search for" autocomplete="off"></form>
 
-      <ul class="navbar-nav"></ul></div>
+      <ul class="navbar-nav"><li class="nav-item">
+  <a class="external-link nav-link" href="https://github.com/josesamos/rexer/" aria-label="github">
+    <span class="fab fa fab fa-github fa-lg"></span>
+     
+  </a>
+</li>
+      </ul></div>
 
     
   </div>
@@ -50,7 +56,7 @@ parameter `new_pages` with the values 'all', 'none', or NULL)."><meta property="
 <div class="row">
   <main id="main" class="col-md-9"><div class="page-header">
       <img src="../logo.png" class="logo" alt=""><h1>Generate the exam document</h1>
-      
+      <small class="dont-index">Source: <a href="https://github.com/josesamos/rexer/blob/HEAD/R/exam.R" class="external-link"><code>R/exam.R</code></a></small>
       <div class="d-none name"><code>generate_document.Rd</code></div>
     </div>
 
@@ -137,10 +143,10 @@ parameter `new_pages` with the values 'all', 'none', or NULL).</p>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 4/5 [unnamed-chunk-1]</span>
 <span class="r-out co"><span class="r-pr">#&gt;</span> 5/5                  </span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> output file: template01.knit.md</span>
-<span class="r-out co"><span class="r-pr">#&gt;</span> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS template01.knit.md --to latex --from markdown+autolink_bare_uris+tex_math_single_backslash --output /tmp/Rtmpa6YiUn/1.tex --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --highlight-style tango --pdf-engine pdflatex --variable graphics --include-in-header /tmp/Rtmpa6YiUn/rmarkdown-str1f295bd81bf.html --include-in-header /tmp/Rtmpa6YiUn/rmarkdown-str1f295960bf53.html </span>
+<span class="r-out co"><span class="r-pr">#&gt;</span> /opt/hostedtoolcache/pandoc/3.1.11/x64/pandoc +RTS -K512m -RTS template01.knit.md --to latex --from markdown+autolink_bare_uris+tex_math_single_backslash --output /tmp/RtmpA3T8pV/1.tex --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/pagebreak.lua --lua-filter /home/runner/work/_temp/Library/rmarkdown/rmarkdown/lua/latex-div.lua --embed-resources --standalone --highlight-style tango --pdf-engine pdflatex --variable graphics --include-in-header /tmp/RtmpA3T8pV/rmarkdown-str1fae192c726b.html --include-in-header /tmp/RtmpA3T8pV/rmarkdown-str1fae76b247ce.html </span>
 <span class="r-wrn co"><span class="r-pr">#&gt;</span> <span class="warning">Warning: </span>error in running command</span>
 <span class="r-msg co"><span class="r-pr">#&gt;</span> ! sh: 1: pdflatex: not found</span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> LaTeX failed to compile /tmp/Rtmpa6YiUn/1.tex. See https://yihui.org/tinytex/r/#debugging for debugging tips. See 1.log for more info.</span>
+<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error:</span> LaTeX failed to compile /tmp/RtmpA3T8pV/1.tex. See https://yihui.org/tinytex/r/#debugging for debugging tips. See 1.log for more info.</span>
 <span class="r-in"><span><span class="co"># }</span></span></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
