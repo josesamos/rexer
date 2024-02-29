@@ -17,7 +17,9 @@ Creates an empty exercise Excel file.
 }
 \examples{
 
+\donttest{
 file <- create_exercise_excel(file = tempfile(fileext = '.xlsx'))
+}
 
 }
 \seealso{

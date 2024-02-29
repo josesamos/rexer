@@ -215,7 +215,9 @@ read_exercise_csv <- function(file, sep = ',') {
 #'
 #' @examples
 #'
+#' \donttest{
 #' file <- create_exercise_excel(file = tempfile(fileext = '.xlsx'))
+#' }
 #'
 #' @export
 create_exercise_excel <- function(file) {
