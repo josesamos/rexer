@@ -17,7 +17,7 @@ knitr::opts_chunk$set(
 
 # Introduction
 
-The goal of `rexer` is to facilitate the generation of exams incorporating random elements to exercises. This applies to both the exercises featured in the exam and the components defined within each exercise, all of which can be randomized. It can be considered as a generalization of the *string exercises* found in the [`exams`](https://CRAN.R-project.org/package=exams) package. 
+The goal of `rexer` is to facilitate the generation of exams incorporating random elements to exercises. It can be considered as a generalization of the *string exercises* found in the [`exams`](https://CRAN.R-project.org/package=exams) package. 
 
 Incorporating randomness within each exercise enhances exam security, ensuring that each student is compelled to focus on their own test rather than attempting to obtain answers from their peers.
 
