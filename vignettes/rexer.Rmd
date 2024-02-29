@@ -190,24 +190,20 @@ ex <- ex |>
 
 ```
 
-In both functions, we can specify the folder where we will generate the instances (parameter `out_dir`) and if we want to change the page layout indicated in each exercise (parameter `new_pages`): we can specify that each exercise is placed on a new page (value 'all') or that the page changes only when it is complete (value 'none').
+In both functions, we can specify the folder where we will generate the instances (parameter `out_dir`) and if we want to change the page layout indicated in each exercise (parameter `new_pages`): we can specify that each exercise is placed on a new page (value 'all') or that the page changes only when it is complete (value 'none'). Using the `output_format` parameter, we can specify the output document format (default is PDF).
 
 In this case, they are generated in the same temporary folder, but we must indicate different folders because the corresponding files have the same name.
 
-The result of the first generated exam in both versions is included in the package, in the files `01.pdf` and `01c.pdf`.
+The result of the second generated exam in both versions is included in the package, in the files `02.pdf` and `02c.pdf`.
 
-Below is the beginning of both documents. Although the correction support document does not indicate the answers (as they were not provided in the exercise definition), we can see that the gaps are marked with the selected options.
-
+Below is the beginning of both documents. In the document to facilitate correction, we can see the gaps marked and numbered. In the first exercise, the order of the gaps has been changed, as indicated in the exercise definition, but the answers can be identified by the gap number used in them.
 
 ```{r, echo = FALSE, fig.align = 'center', out.width = "100%"}
-knitr::include_graphics("figures/01.png")
-knitr::include_graphics("figures/01c.png")
+knitr::include_graphics("figures/02.png")
+knitr::include_graphics("figures/02c.png")
 ```
 
-
-
 In these examples, we can see that the instance number has been included in the upper-right corner. This number allows us to relate them for correction purposes.
-
 
 # Conclusions
 

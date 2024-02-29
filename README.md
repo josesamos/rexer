@@ -7,9 +7,7 @@
 <!-- badges: end -->
 
 The goal of `rexer` is to facilitate the generation of exams
-incorporating random elements to exercises. This applies to both the
-exercises featured in the exam and the components defined within each
-exercise, all of which can be randomized. `rexer` is a generalization of
+incorporating random elements to exercises. It is a generalization of
 the *string exercises* found in the
 [`exams`](https://CRAN.R-project.org/package=exams) package, enabling
 the definition of exercises within a table and the inclusion of random
