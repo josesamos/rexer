@@ -131,8 +131,9 @@ exam <-
 #'   random = TRUE,
 #'   reorder_exercises = TRUE
 #' ) |>
-#'   define_exercises_from_csv(exercises) |>
-#'   generate_document(out_dir = tempdir(), new_pages = 'all')
+#'   define_exercises_from_csv(exercises)
+#' # ex |>
+#' #   generate_document(out_dir = tempdir(), new_pages = 'all')
 #' }
 #'
 #' @export
@@ -247,8 +248,9 @@ generate_document.exam <- function(ex,
 #'   random = TRUE,
 #'   reorder_exercises = TRUE
 #' ) |>
-#'   define_exercises_from_csv(exercises) |>
-#'   generate_correction_document(out_dir = tempdir())
+#'   define_exercises_from_csv(exercises)
+#' # ex |>
+#' #   generate_correction_document(out_dir = tempdir())
 #' }
 #'
 #' @export
