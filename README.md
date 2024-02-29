@@ -4,6 +4,10 @@
 # rexer <img src="man/figures/logo.png" align="right" height="139" alt="" />
 
 <!-- badges: start -->
+
+[![Codecov test
+coverage](https://codecov.io/gh/josesamos/rexer/branch/main/graph/badge.svg)](https://app.codecov.io/gh/josesamos/rexer?branch=main)
+[![R-CMD-check](https://github.com/josesamos/rexer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josesamos/rexer/actions/workflows/R-CMD-check.yaml)
 <!-- badges: end -->
 
 The goal of `rexer` is to facilitate the generation of exams
