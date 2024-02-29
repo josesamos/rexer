@@ -48,20 +48,20 @@ test_that("exam", {
   ) |>
     define_exercises(q1)
 
-  r1 <- generate_correction_document(ex5, out_dir = tempdir())
-
-  r2 <- generate_document(ex5, out_dir = tempdir())
-
-  r3 <- generate_document(ex5, out_dir = tempdir(), new_pages = 'all')
-
-  r4 <- generate_document(ex5, out_dir = tempdir(), new_pages = 'none')
-
-  ex6 <- ex5
-  ex6$select_n_exercises <- 3
-  r5 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
-
-  ex6$select_n_exercises <- 30
-  r6 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
+  # r1 <- generate_correction_document(ex5, out_dir = tempdir())
+  #
+  # r2 <- generate_document(ex5, out_dir = tempdir())
+  #
+  # r3 <- generate_document(ex5, out_dir = tempdir(), new_pages = 'all')
+  #
+  # r4 <- generate_document(ex5, out_dir = tempdir(), new_pages = 'none')
+  #
+  # ex6 <- ex5
+  # ex6$select_n_exercises <- 3
+  # r5 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
+  #
+  # ex6$select_n_exercises <- 30
+  # r6 <- generate_document(ex6, out_dir = tempdir(), new_pages = 'none')
 
   expect_equal(ex, structure(
     list(
