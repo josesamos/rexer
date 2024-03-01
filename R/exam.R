@@ -121,7 +121,7 @@ exam <-
 #'
 #' @examples
 #'
-#' \donttest{
+#' \dontrun{
 #' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
 #' exercises <- system.file("extdata/exercises.csv", package = "rexer")
 #' ex <- exam(
@@ -237,7 +237,7 @@ generate_document.exam <- function(ex,
 #'
 #' @examples
 #'
-#' \donttest{
+#' \dontrun{
 #' rmd <- system.file("extdata/template01.Rmd", package = "rexer")
 #' exercises <- system.file("extdata/exercises.csv", package = "rexer")
 #' ex <- exam(

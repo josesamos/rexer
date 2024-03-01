@@ -40,7 +40,7 @@ parameter `new_pages` with the values 'all', 'none', or NULL).
 }
 \examples{
 
-\donttest{
+\dontrun{
 rmd <- system.file("extdata/template01.Rmd", package = "rexer")
 exercises <- system.file("extdata/exercises.csv", package = "rexer")
 ex <- exam(
