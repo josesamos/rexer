@@ -54,9 +54,8 @@ ex <- exam(
   random = TRUE,
   reorder_exercises = TRUE
 ) |>
-  define_exercises_from_csv(exercises)
-# ex |>
-#   generate_correction_document(out_dir = tempdir())
+  define_exercises_from_csv(exercises) |>
+  generate_correction_document(out_dir = tempdir())
 }
 
 }
