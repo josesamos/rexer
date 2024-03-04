@@ -5,9 +5,12 @@
 
 <!-- badges: start -->
 
+[![CRAN
+status](https://www.r-pkg.org/badges/version/rexer)](https://CRAN.R-project.org/package=rexer)
+[![R-CMD-check](https://github.com/josesamos/rexer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josesamos/rexer/actions/workflows/R-CMD-check.yaml)
 [![Codecov test
 coverage](https://codecov.io/gh/josesamos/rexer/branch/main/graph/badge.svg)](https://app.codecov.io/gh/josesamos/rexer?branch=main)
-[![R-CMD-check](https://github.com/josesamos/rexer/actions/workflows/R-CMD-check.yaml/badge.svg)](https://github.com/josesamos/rexer/actions/workflows/R-CMD-check.yaml)
+<!-- [![Downloads](http://cranlogs.r-pkg.org/badges/grand-total/rexer?color=brightgreen)](https://www.r-pkg.org:443/pkg/rexer) -->
 <!-- badges: end -->
 
 The goal of `rexer` is to facilitate the generation of exams
