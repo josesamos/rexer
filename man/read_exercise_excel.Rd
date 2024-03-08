@@ -25,8 +25,8 @@ do not indicate anything, it considers the first sheet.
 }
 \examples{
 
-file <- system.file("extdata/exercises.csv", package = "rexer")
-df <- read_exercise_csv(file)
+file <- system.file("extdata/exercises.xlsx", package = "rexer")
+df <- read_exercise_excel(file)
 
 }
 \seealso{
