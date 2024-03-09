@@ -194,7 +194,11 @@ read_exercise_csv <- function(file, sep = ',') {
   )
   attributes <- names(df)
   df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
-  if (nrow(df) > 1) {
+  if (nrow(df) == 1) {
+    df[, attributes] <-
+      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))))
+  } else {
     df[, attributes] <-
       apply(df[, attributes, drop = FALSE], 2, function(x)
         tidyr::replace_na(x, ''))
@@ -275,8 +279,13 @@ read_exercise_excel <- function(file,
     )
   )
   attributes <- names(df)
-  df[, attributes] <- data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
-  if (nrow(df) > 1) {
+  df[, attributes] <-
+    data.frame(lapply(df[, attributes], as.character), stringsAsFactors = FALSE)
+  if (nrow(df) == 1) {
+    df[, attributes] <-
+      tibble::as_tibble(as.list(apply(df[, attributes, drop = FALSE], 2, function(x)
+        tidyr::replace_na(x, ''))))
+  } else {
     df[, attributes] <-
       apply(df[, attributes, drop = FALSE], 2, function(x)
         tidyr::replace_na(x, ''))
